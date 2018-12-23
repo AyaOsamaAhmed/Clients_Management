@@ -132,16 +132,18 @@
                 android:layout_height="wrap_content"
                 android:background="@mipmap/btext"
                 android:id="@+id/cash"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:layout_marginTop="30dp"
+                android:gravity="center"
                 />
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/btext"
                 android:id="@+id/buy"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:layout_marginTop="25dp"
+                android:gravity="center"
                 />
 
         <TextView
@@ -149,8 +151,11 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/btext"
             android:id="@+id/total"
-            android:inputType="number"
             android:contentDescription="@string/app_name"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
             android:layout_marginTop="28dp"
             />
 
@@ -160,6 +165,7 @@
                 android:background="@mipmap/btext"
                 android:id="@+id/date"
                 android:inputType="date"
+
                 android:contentDescription="@string/app_name"
                 android:layout_marginTop="28dp"
                 />
