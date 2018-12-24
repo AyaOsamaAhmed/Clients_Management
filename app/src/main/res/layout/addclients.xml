@@ -10,8 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/partcard"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
         />
     <ScrollView
         android:layout_width="match_parent"
@@ -93,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_toLeftOf="@id/text_layout"
+        android:layout_toStartOf="@id/text_layout"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         >
@@ -158,18 +159,13 @@
             android:textColor="@color/colorPrimary"
             android:layout_marginTop="28dp"
             />
-
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/btext"
+                android:background="@mipmap/calendertext"
                 android:id="@+id/date"
-                android:inputType="date"
-
-                android:contentDescription="@string/app_name"
                 android:layout_marginTop="28dp"
                 />
-
 
     </LinearLayout>
             <Button
@@ -179,7 +175,7 @@
                 android:id="@+id/button_save"
                 android:background="@mipmap/button"
                 android:text="حفظ"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 android:layout_margin="@dimen/marginleft_size"
                 android:layout_centerHorizontal="true"
                 />

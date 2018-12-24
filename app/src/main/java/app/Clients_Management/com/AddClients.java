@@ -1,6 +1,7 @@
 package app.Clients_Management.com;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
@@ -28,8 +29,8 @@ import static android.content.ContentValues.TAG;
 
 public class AddClients extends Activity {
 
-    EditText        name ,phone , card ,cash ,buy  ,date ;
-    TextView        total ;
+    EditText        name ,phone , card ,cash ,buy  ;
+    TextView        total ,date ;
     Button          button_save ;
     String          ls_id ,ls_name , ls_phone , ls_card , ls_cash ="0.0" , ls_buy="0.0" , ls_total="0.0" , ls_date ;
     Double          ld_buy=0.0 , ld_cash=0.0 , ld_total=0.0 ;
@@ -37,6 +38,7 @@ public class AddClients extends Activity {
     DataClients     dataClients;
 
     DatabaseReference   databaseclients;
+    DataPickerFragment  dataPickerFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +53,13 @@ public class AddClients extends Activity {
         cash = (EditText)findViewById(R.id.cash);
         buy = (EditText)findViewById(R.id.buy);
         total = (TextView)findViewById(R.id.total);
-        date = (EditText)findViewById(R.id.date);
+        date = (TextView) findViewById(R.id.date);
         button_save =(Button)findViewById(R.id.button_save);
-
+        dataPickerFragment = new DataPickerFragment();
         //--------- Set Data
         setData();
         //------ Calc Total
-      buy.addTextChangedListener(new TextWatcher() {
+        buy.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
@@ -79,8 +81,14 @@ public class AddClients extends Activity {
                 CalcTotal();
             }
         });
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment newFragment = new DataPickerFragment();
+                newFragment.show(getFragmentManager(),"datepicker");
 
-
+            }
+        });
         //-------- Set Data
         CalcTotal();
 
