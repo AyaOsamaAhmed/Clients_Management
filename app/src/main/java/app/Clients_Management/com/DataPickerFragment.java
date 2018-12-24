@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -33,5 +34,10 @@ public class DataPickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         Toast.makeText(getActivity(),year+"-"+month+"-"+day , Toast.LENGTH_SHORT).show();
         result = year+"-"+month+"-"+day ;
+
+        Intent in = new Intent();
+        in.setAction(result);
+        
+        Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
     }
 }
