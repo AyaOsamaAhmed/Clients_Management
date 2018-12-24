@@ -1,12 +1,26 @@
 package app.Clients_Management.com;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by egypt2 on 10-Dec-18.
@@ -15,8 +29,14 @@ import android.widget.Toast;
 public class ClientsList extends Activity {
 
     EditText        search_text ;
-    Button          search_button,add_button, button_details;
-    String          ls_search_text ;
+    ListView        list_view;
+    Button          search_button,add_button;
+    String          ls_search_text ,ls_username ,databasename ;
+    ArrayList<HashMap<String, String>> arrayList_employee ;
+    HashMap<String, String> hash_employees;
+
+    DatabaseReference   databaseReference;
+    List<DataClients> list_dataclients ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +44,14 @@ public class ClientsList extends Activity {
 
         search_text=(EditText)findViewById(R.id.search_text);
         search_button=(Button)findViewById(R.id.search_button);
-        button_details = (Button) findViewById(R.id.button_details);
-
+        list_view = (ListView)findViewById(R.id.clientslist);
+        arrayList_employee = new ArrayList<HashMap<String, String>>();
+        hash_employees = new HashMap<String, String>();
+        list_dataclients = new ArrayList<>();
+        //-------Database Firebase
+        databasename = "Users";                                                      // name clients
+        databaseReference = FirebaseDatabase.getInstance().getReference(databasename);
+        //------------
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,15 +75,52 @@ public class ClientsList extends Activity {
                 startActivity(intent);
             }
         });
-        button_details.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),ClientsDetails.class);
 
-                startActivity(intent);
-            }
-        });
 
     }
 
+
+    @Override
+    protected void onStart() {
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                    list_dataclients.clear();
+                for(DataSnapshot dataclients : dataSnapshot.getChildren()){
+                    DataClients client  = dataclients.getValue(DataClients.class);
+                    list_dataclients.add(client);
+                }
+                ListViewAdapterClients adapter = new ListViewAdapterClients(ClientsList.this, list_dataclients ,ls_username );
+                list_view.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        super.onStart();
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Black));
+
+        // builder.
+        builder.setMessage("هل انت متاكد من انك تريد الخروج من الحساب ؟").setCancelable(false).setPositiveButton("الخروج من الحساب", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(ClientsList.this ,Login.class);
+                startActivity(intent);
+
+            }
+        }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
+    }
 }

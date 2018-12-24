@@ -1,15 +1,21 @@
 package app.Clients_Management.com;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +44,7 @@ public class AddClients extends Activity {
     DataClients     dataClients;
 
     DatabaseReference   databaseclients;
-    DataPickerFragment  dataPickerFragment;
+    DatePickerDialog    datePickerDialog ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +61,6 @@ public class AddClients extends Activity {
         total = (TextView)findViewById(R.id.total);
         date = (TextView) findViewById(R.id.date);
         button_save =(Button)findViewById(R.id.button_save);
-        dataPickerFragment = new DataPickerFragment();
         //--------- Set Data
         setData();
         //------ Calc Total
@@ -84,29 +89,55 @@ public class AddClients extends Activity {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new DataPickerFragment();
-                newFragment.show(getFragmentManager(),"datepicker");
-
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                datePickerDialog = new DatePickerDialog(AddClients.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                date.setText(day + "/" + (month+1) + "/" + year);
+                            }
+                        }, year, month, dayOfMonth);
+                datePickerDialog.show();
+                // datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                //  DialogFragment newFragment = new DataPickerFragment();
+                // newFragment.show(getFragmentManager(),"datepicker");
             }
         });
         //-------- Set Data
         CalcTotal();
-
         //--------- Button Save
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setData();
+               if( validation_data()){
                 String  id = databaseclients.push().getKey();
                 ls_id = id ;
                 dataClients  = new DataClients(ls_id ,ls_name,ls_phone,ls_card,ls_cash,ls_buy,ls_date);
 
                 databaseclients.child(id).setValue(dataClients);
                 Toast.makeText(AddClients.this, "Saved Data Sucsses", Toast.LENGTH_SHORT).show();
+                   Intent intent = new Intent(AddClients.this,ClientsList.class);
+                   startActivity(intent);
+            }
             }
         });
         //---------
 
+    }
+
+    private Boolean validation_data() {
+        if (ls_name.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال اسم العميل", Toast.LENGTH_SHORT).show(); return false ;}
+        if (ls_phone.isEmpty()){Toast.makeText(this, "من فضلك... قم بإدخال تليفون العميل", Toast.LENGTH_SHORT).show(); return false ;}
+        if (ls_card.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال رقم عضويه العميل", Toast.LENGTH_SHORT).show(); return false ;}
+        if (ls_cash.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال المبلغ المدفوع الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
+        if (ls_buy.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال مبلغ المشتريات الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
+        if (ls_date.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال تاريخ إدخال العميل", Toast.LENGTH_SHORT).show(); return false ;}
+
+        return true ;
     }
 
     private void setData (){
@@ -141,5 +172,22 @@ public class AddClients extends Activity {
         this.total.setText(ls_total);
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Light));
 
+        // builder.
+        builder.setMessage("هل انت متاكد من إلغاء انشاء عميل جديد؟").setCancelable(false).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(AddClients.this ,ClientsList.class);
+                startActivity(intent);
+
+            }
+        }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
+    }
 }

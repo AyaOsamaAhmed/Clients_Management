@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -27,21 +28,21 @@ public class ListViewAdapterClients extends BaseAdapter {
     String          ls_username ;
     ArrayList<HashMap<String, String>> data;
     HashMap<String, String> resultp = new HashMap<String, String>();
-
+    List<DataClients>     list_clients ;
 
     public ListViewAdapterClients(Context context,
-                                  ArrayList<HashMap<String, String>> arraylist , String username ) {
+                                  List<DataClients>  list_clients, String username ) {
 
         this.context = context;
         ls_username = username;
-        data = arraylist;
-        resultp = data.get(0);
+        this.list_clients = list_clients;
+       // resultp = list_clients.get(0);
 
     }
 
     @Override
     public int getCount() {
-        return resultp.size();
+        return list_clients.size();
     }
 
     @Override
@@ -57,21 +58,20 @@ public class ListViewAdapterClients extends BaseAdapter {
     @Override
     public View getView(final int position, View convertview, ViewGroup viewGroup) {
         // Declare Variables
-        TextView employee_in ;
-        Button  button_miss ;
+        TextView Client_name ;
+        Button  button_details ;
         if (convertview == null) {
             convertview = LayoutInflater.from(context).
-                    inflate(R.layout.clients_inside, viewGroup, false);
+                    inflate(R.layout.clientslist_inside, viewGroup, false);
         }
 
         // Locate the TextViews
-       employee_in = (TextView) convertview.findViewById(R.id.name_client);
-        button_miss = (Button) convertview.findViewById(R.id.button_clients);
+        Client_name = (TextView) convertview.findViewById(R.id.Client_name);
+        button_details = (Button) convertview.findViewById(R.id.button_details);
+        DataClients dataClients = list_clients.get(position);
         //
-        Log.d(TAG, "getView: resultp");
-        String key = "addition_"+position+"_"+ls_username;
-        String emp = resultp.get(key);
-        employee_in.setText(emp);
+
+        Client_name.setText(dataClients.getUser_Name());
 
         // Locate the ImageView in listview_item.xml
 //        imglink = (ImageView) itemView.findViewById(R.id.image);
@@ -83,7 +83,7 @@ public class ListViewAdapterClients extends BaseAdapter {
         //
         //convertview.setOnClickListener(new CustomOnClickListener(callback, position));
         //
-        button_miss.setOnClickListener(new View.OnClickListener() {
+        button_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: listener "+position );

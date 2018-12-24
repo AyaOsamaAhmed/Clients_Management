@@ -3,8 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background"
-    >
 
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             android:layout_height="60dp"
             android:layout_gravity="left"
             android:background="@mipmap/icon"
-            android:id="@+id/button_clients"
+            android:id="@+id/button_details"
 
             />
         <TextView
@@ -30,7 +30,7 @@
             android:layout_gravity="right"
             android:textColor="@color/white"
             android:paddingTop="15dp"
-            android:id="@+id/name_client"
+            android:id="@+id/Client_name"
             />
 
     </LinearLayout>
@@ -41,4 +41,5 @@
         android:layout_below="@+id/finance"
         android:id="@+id/image_finance"
         />
+
 </LinearLayout>
