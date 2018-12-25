@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by egypt2 on 18-Dec-18.
@@ -13,8 +14,8 @@ import android.widget.TextView;
 public class ClientsDetails extends Activity {
 
 
-    TextView  new_paid;
-
+    TextView    new_paid;
+    String      ls_id ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,8 @@ public class ClientsDetails extends Activity {
 
         new_paid = (TextView)findViewById(R.id.new_paid);
 
+        ls_id = getIntent().getStringExtra("ID");
+      //  Toast.makeText(this, ls_id, Toast.LENGTH_SHORT).show();
 
         new_paid.setOnClickListener(new View.OnClickListener() {
             @Override

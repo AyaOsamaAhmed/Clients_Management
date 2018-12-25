@@ -48,8 +48,12 @@ public class ClientsList extends Activity {
         arrayList_employee = new ArrayList<HashMap<String, String>>();
         hash_employees = new HashMap<String, String>();
         list_dataclients = new ArrayList<>();
+        add_button = (Button)findViewById(R.id.add_button);
+
+        //-------Database name
+        databasename = "Clients_" +getIntent().getStringExtra("username");
+        Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
         //-------Database Firebase
-        databasename = "Users";                                                      // name clients
         databaseReference = FirebaseDatabase.getInstance().getReference(databasename);
         //------------
         search_button.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +70,6 @@ public class ClientsList extends Activity {
             }
         });
 
-        add_button = (Button)findViewById(R.id.add_button);
 
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +92,7 @@ public class ClientsList extends Activity {
                     list_dataclients.clear();
                 for(DataSnapshot dataclients : dataSnapshot.getChildren()){
                     DataClients client  = dataclients.getValue(DataClients.class);
+                //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
                     list_dataclients.add(client);
                 }
                 ListViewAdapterClients adapter = new ListViewAdapterClients(ClientsList.this, list_dataclients ,ls_username );

@@ -40,23 +40,18 @@
             />
     </LinearLayout>
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="70dp"
         android:layout_marginTop="@dimen/marginRight_size"
         >
       <ListView
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
+          android:layout_height="wrap_content"
           android:id="@+id/clientslist"
           ></ListView>
 
     </RelativeLayout>
-</ScrollView>
+
 </LinearLayout>

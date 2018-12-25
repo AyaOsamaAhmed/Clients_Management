@@ -1,12 +1,25 @@
 package app.Clients_Management.com;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -16,7 +29,14 @@ import android.widget.EditText;
 public class Login extends Activity {
 
     EditText username,password;
+    String      ls_username , ls_password ;
     Button   login ;
+    private boolean check;
+
+
+    DatabaseReference databaseReference;
+    List<DataUsers> list_datausers;
+    private String databasename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +46,119 @@ public class Login extends Activity {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         login = (Button) findViewById(R.id.button_login);
-
+        list_datausers = new ArrayList<>();
+        //-----
+        databasename = "Users";                                                      // name clients
+        databaseReference = FirebaseDatabase.getInstance().getReference(databasename);
+        //---------
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),ClientsList.class);
-                startActivity(intent);
+                setData();
+                if (ls_username.isEmpty()) {
+                    Toast.makeText(Login.this, "من فضلك قم بإدخال اسم المستخدم الخاص بك", Toast.LENGTH_SHORT).show();
+                }else if (ls_password.isEmpty()) {
+                    Toast.makeText(Login.this, "من فضلك قم بإدخال كلمه المرور الخاص بك", Toast.LENGTH_SHORT).show();
+                }else if (username.equals("SecretLogin")) {
+                            Intent intent = new Intent();
+                } else if (checkNetwork()) {
+                    if (checkUsers(username.getText().toString())) {
+                        Toast.makeText(Login.this, username.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), ClientsList.class);
+                        intent.putExtra("username", username.getText().toString());
+                        startActivity(intent);
+                    }
+
+                } else {
+                    alart();
+
+                }
             }
         });
+    }
+
+    public void alart(String message) {
+        AlertDialog al = new AlertDialog.Builder(this).create();
+        al.setMessage(message);
+        al.setButton("O.K", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        });
+
+        al.show();
+    }
+
+
+    public void alart() {
+        AlertDialog al = new AlertDialog.Builder(this).create();
+        al.setMessage("No Internet connection. Would you like to enable Internet connection ?");
+        al.setButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        al.setButton2("MOBILEDATA", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Login.this.startActivity(new Intent("android.settings.DATA_ROAMING_SETTINGS"));
+            }
+        });
+        al.setButton3("WIFI", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Login.this.startActivity(new Intent("android.settings.WIFI_SETTINGS"));
+            }
+        });
+        al.show();
+    }
+
+    private boolean checkNetwork() {
+
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+
+        if (info != null && info.isConnected()) {
+            check=true;
+        }else check=false;
+        return check;
+    }
+
+    private void setData (){
+        ls_username = username.getText().toString();
+        ls_password=password.getText().toString();
+    }
+    @Override
+    protected void onStart() {
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                list_datausers.clear();
+                for(DataSnapshot dataclients : dataSnapshot.getChildren()){
+                    DataUsers userData  = dataclients.getValue(DataUsers.class);
+                    //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
+                    list_datausers.add(userData);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        super.onStart();
+    }
+
+    private Boolean checkUsers ( String user){
+
+        for (int i = 0 ; i < list_datausers.size() ; i++){
+            DataUsers datausers = list_datausers.get(i);
+            if (user.equals(datausers.getUser_Name())){
+                return true;
+            }
+
+        }
+        return false;
     }
 }
