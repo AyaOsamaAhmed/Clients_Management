@@ -51,7 +51,8 @@ public class ClientsList extends Activity {
         add_button = (Button)findViewById(R.id.add_button);
 
         //-------Database name
-        databasename = "Clients_" +getIntent().getStringExtra("username");
+        ls_username=getIntent().getStringExtra("username");
+        databasename = "Clients_" + ls_username;
         Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
         //-------Database Firebase
         databaseReference = FirebaseDatabase.getInstance().getReference(databasename);
@@ -75,6 +76,7 @@ public class ClientsList extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),AddClients.class);
+                intent.putExtra("username", ls_username);
                 startActivity(intent);
             }
         });

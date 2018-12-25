@@ -15,7 +15,7 @@ public class ClientsDetails extends Activity {
 
 
     TextView    new_paid;
-    String      ls_id ;
+    String      ls_id ,ls_username ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +23,17 @@ public class ClientsDetails extends Activity {
         setContentView(R.layout.customer_detail);
 
         new_paid = (TextView)findViewById(R.id.new_paid);
-
+        //--------
         ls_id = getIntent().getStringExtra("ID");
+        ls_username=getIntent().getStringExtra("username");
+        //--------
       //  Toast.makeText(this, ls_id, Toast.LENGTH_SHORT).show();
 
         new_paid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),ClientsPaid.class);
-
+                intent.putExtra("username", ls_username);
                 startActivity(intent);
             }
         });

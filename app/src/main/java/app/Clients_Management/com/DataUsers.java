@@ -8,7 +8,7 @@ public class DataUsers {
 
     String      user_id ;
     String      user_Name;
-    String      Name ;
+    String      name ;
     String      password ;
     String      user_phone;
     String      user_date;
@@ -19,7 +19,7 @@ public class DataUsers {
     public DataUsers(String user_id, String user_Name, String name, String password, String user_phone, String user_date) {
         this.user_id = user_id;
         this.user_Name = user_Name;
-        Name = name;
+        this.name = name;
         this.password = password;
         this.user_phone = user_phone;
         this.user_date = user_date;
@@ -34,7 +34,7 @@ public class DataUsers {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getPassword() {
