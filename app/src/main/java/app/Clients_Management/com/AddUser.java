@@ -27,13 +27,12 @@ import java.util.Calendar;
 
 public class AddUser extends Activity {
 
-    EditText name ,phone , card ,cash ,buy  ;
-    TextView total ,date ;
-    Button button_save ;
-    String          ls_id ,ls_name , ls_phone , ls_card , ls_cash ="0.0" , ls_buy="0.0" , ls_total="0.0" , ls_date ;
-    Double          ld_buy=0.0 , ld_cash=0.0 , ld_total=0.0 ;
+    EditText        name ,phone , username ,password  ;
+    TextView        date ;
+    Button          button_save ;
+    String          ls_id ,ls_name , ls_phone , ls_username , ls_password  ,  ls_date ;
     String          databasename;
-    DataClients     dataClients;
+    DataUsers       dataUeser;
 
     DatabaseReference databaseclients;
     DatePickerDialog datePickerDialog ;
@@ -47,37 +46,13 @@ public class AddUser extends Activity {
         //------------------- Declear
         name = (EditText)findViewById(R.id.name);
         phone = (EditText)findViewById(R.id.phone);
-        card = (EditText)findViewById(R.id.card);
-        cash = (EditText)findViewById(R.id.cash);
-        buy = (EditText)findViewById(R.id.buy);
-        total = (TextView)findViewById(R.id.total);
+        username = (EditText)findViewById(R.id.username);
+        password = (EditText)findViewById(R.id.password);
         date = (TextView) findViewById(R.id.date);
         button_save =(Button)findViewById(R.id.button_save);
         //--------- Set Data
         setData();
         //------ Calc Total
-        buy.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void afterTextChanged(Editable editable) {
-                ls_buy = editable.toString();
-                CalcTotal();
-            }
-        });
-        cash.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void afterTextChanged(Editable editable) {
-                ls_cash = editable.toString();
-                CalcTotal();
-            }
-        });
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,8 +73,6 @@ public class AddUser extends Activity {
                 // newFragment.show(getFragmentManager(),"datepicker");
             }
         });
-        //-------- Set Data
-        CalcTotal();
         //--------- Button Save
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,12 +81,13 @@ public class AddUser extends Activity {
                 if( validation_data()){
                     String  id = databaseclients.push().getKey();
                     ls_id = id ;
-                    dataClients  = new DataClients(ls_id ,ls_name,ls_phone,ls_card,ls_cash,ls_buy,ls_date);
+                    dataUeser  = new DataUsers(ls_id ,ls_username,ls_name,ls_password,ls_phone,ls_date);
 
-                    databaseclients.child(id).setValue(dataClients);
+                    databaseclients.child(id).setValue(dataUeser);
                     Toast.makeText(AddUser.this, "Saved Data Sucsses", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(AddUser.this,ClientsList.class);
-                    startActivity(intent);
+                   addData();
+                    Toast.makeText(AddUser.this, "you can add new User", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -121,12 +95,20 @@ public class AddUser extends Activity {
 
     }
 
+    private void addData() {
+        name.setText("");
+        phone.setText("");
+        username.setText("");
+        password.setText("");
+        date.setText("");
+
+    }
+
     private Boolean validation_data() {
         if (ls_name.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال اسم العميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_phone.isEmpty()){Toast.makeText(this, "من فضلك... قم بإدخال تليفون العميل", Toast.LENGTH_SHORT).show(); return false ;}
-        if (ls_card.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال رقم عضويه العميل", Toast.LENGTH_SHORT).show(); return false ;}
-        if (ls_cash.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال المبلغ المدفوع الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
-        if (ls_buy.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال مبلغ المشتريات الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
+        if (ls_username.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال اسم المستخدم للعميل", Toast.LENGTH_SHORT).show(); return false ;}
+        if (ls_phone.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال كلمه المرور الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_date.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال تاريخ إدخال العميل", Toast.LENGTH_SHORT).show(); return false ;}
 
         return true ;
@@ -135,33 +117,10 @@ public class AddUser extends Activity {
     private void setData (){
         ls_name = name.getText().toString();
         ls_phone = phone.getText().toString();
-        ls_card  = card.getText().toString();
-        ls_cash = cash.getText().toString();
-        ls_buy  = buy.getText().toString();
+        ls_username  = username.getText().toString();
+        ls_password  = password.getText().toString();
+        ls_phone = phone.getText().toString();
         ls_date =date.getText().toString();
-        //------
-      /*  Date calendar = Calendar.getInstance().getTime();
-        Integer day = calendar.getDate();
-        Integer month = calendar.getMonth();
-        Integer year = calendar.getYear();
-
-        //united destriputer - -115-
-        date.setText(year+"/"+month+"/"+day);
-        date.setText(year.toString());*/
-
-    }
-
-    private void  CalcTotal (){
-        //-------
-        if (ls_buy.isEmpty()) ls_buy="0.0";
-        if(ls_cash.isEmpty()) ls_cash="0.0";
-        //--------
-        ld_buy = Double.parseDouble(ls_buy) + 0.0 ;
-        ld_cash = Double.parseDouble(ls_cash)+0.0 ;
-        ld_total = ld_buy - ld_cash ;
-        ls_total = ld_total.toString() ;
-        //-----
-        this.total.setText(ls_total);
     }
 
     @Override
@@ -171,7 +130,7 @@ public class AddUser extends Activity {
         // builder.
         builder.setMessage("هل انت متاكد من إلغاء انشاء عميل جديد؟").setCancelable(false).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                Intent intent = new Intent(AddUser.this ,ClientsList.class);
+                Intent intent = new Intent(AddUser.this ,Login.class);
                 startActivity(intent);
 
             }

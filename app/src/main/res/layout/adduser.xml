@@ -5,15 +5,9 @@
     android:layout_height="match_parent"
     android:background="@mipmap/background"
     android:orientation="vertical"
+
     >
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/partcard"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/app_name"
-        />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="70dp"
+            android:layout_marginTop="70dp"
             android:id="@+id/relative"
             >
 
@@ -51,7 +46,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="رقم العضوية:"
+                    android:text="اسم المستخدم:"
                     android:textSize="@dimen/size_text"
                     android:textStyle="bold"
                     android:layout_margin="@dimen/marginleft_size"
@@ -59,23 +54,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="مبلغ المدفوع :"
-                    android:textSize="@dimen/size_text"
-                    android:textStyle="bold"
-                    android:layout_margin="@dimen/marginleft_size"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="مبلغ المشتريات :"
-                    android:textSize="@dimen/size_text"
-                    android:textStyle="bold"
-                    android:layout_margin="@dimen/marginleft_size"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="إجمالى المتبقى:"
+                    android:text="كلمه المرور :"
                     android:textSize="@dimen/size_text"
                     android:textStyle="bold"
                     android:layout_margin="@dimen/marginleft_size"
@@ -121,8 +100,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/btext"
-                android:id="@+id/card"
-                android:inputType="number"
+                android:id="@+id/username"
+                android:inputType="text"
                 android:layout_marginTop="23dp"
 
 
@@ -132,39 +111,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/btext"
-                android:id="@+id/cash"
+                android:id="@+id/password"
                 android:inputType="numberDecimal"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 />
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/btext"
-                android:id="@+id/buy"
-                android:inputType="numberDecimal"
-                android:layout_marginTop="25dp"
-                android:gravity="center"
-                />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/btext"
-            android:id="@+id/total"
-            android:contentDescription="@string/app_name"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginTop="28dp"
-            />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/calendertext"
                 android:id="@+id/date"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="20dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:gravity="center"

@@ -45,12 +45,17 @@ public class AddClients extends Activity {
 
     DatabaseReference   databaseclients;
     DatePickerDialog    datePickerDialog ;
+    private String ls_username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addclients);
         //-------Database Firebase
-        databasename = "Users";                                                      // name clients
+        ls_username=getIntent().getStringExtra("username");
+        databasename = "Clients_" + ls_username;
+        Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
+        // name clients
         databaseclients = FirebaseDatabase.getInstance().getReference(databasename);
         //------------------- Declear
         name = (EditText)findViewById(R.id.name);
@@ -119,8 +124,10 @@ public class AddClients extends Activity {
                 dataClients  = new DataClients(ls_id ,ls_name,ls_phone,ls_card,ls_cash,ls_buy,ls_date);
 
                 databaseclients.child(id).setValue(dataClients);
+
                 Toast.makeText(AddClients.this, "Saved Data Sucsses", Toast.LENGTH_SHORT).show();
                    Intent intent = new Intent(AddClients.this,ClientsList.class);
+                   intent.putExtra("username", ls_username);
                    startActivity(intent);
             }
             }

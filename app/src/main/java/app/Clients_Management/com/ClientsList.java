@@ -81,6 +81,11 @@ public class ClientsList extends Activity {
             }
         });
 
+        changeNameApp();
+
+    }
+
+    private void changeNameApp() {
 
     }
 

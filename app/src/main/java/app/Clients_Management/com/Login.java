@@ -55,17 +55,20 @@ public class Login extends Activity {
             @Override
             public void onClick(View view) {
                 setData();
+                Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
                 if (ls_username.isEmpty()) {
                     Toast.makeText(Login.this, "من فضلك قم بإدخال اسم المستخدم الخاص بك", Toast.LENGTH_SHORT).show();
                 }else if (ls_password.isEmpty()) {
                     Toast.makeText(Login.this, "من فضلك قم بإدخال كلمه المرور الخاص بك", Toast.LENGTH_SHORT).show();
-                }else if (username.equals("SecretLogin")) {
-                            Intent intent = new Intent();
+                }else if (ls_username.equals("SecretLogin")) {
+                            Intent intent = new Intent(Login.this,AddUser.class);
+                            startActivity(intent);
+
                 } else if (checkNetwork()) {
-                    if (checkUsers(username.getText().toString())) {
-                        Toast.makeText(Login.this, username.getText().toString(), Toast.LENGTH_SHORT).show();
+                    if (checkUsers(ls_username)) {
+                        Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), ClientsList.class);
-                        intent.putExtra("username", username.getText().toString());
+                        intent.putExtra("username", ls_username);
                         startActivity(intent);
                     }
 

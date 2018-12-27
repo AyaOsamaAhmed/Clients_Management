@@ -95,6 +95,9 @@ public class ListViewAdapterClients extends BaseAdapter {
                 //intent.putExtra("username",resultp.get(key));
 
                 intent.putExtra("ID",dataClients.getUser_id());
+                intent.putExtra("username",dataClients.getUser_Name());
+                intent.putExtra("phone",dataClients.getUser_phone());
+                intent.putExtra("card",dataClients.getUser_card());
                 context.startActivity(intent);
             }
         });
