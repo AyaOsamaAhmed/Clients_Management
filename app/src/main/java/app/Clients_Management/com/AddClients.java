@@ -187,6 +187,7 @@ public class AddClients extends Activity {
         builder.setMessage("هل انت متاكد من إلغاء انشاء عميل جديد؟").setCancelable(false).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Intent intent = new Intent(AddClients.this ,ClientsList.class);
+                intent.putExtra("username", ls_username);
                 startActivity(intent);
 
             }

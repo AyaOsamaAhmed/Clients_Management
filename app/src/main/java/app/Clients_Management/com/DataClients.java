@@ -7,7 +7,7 @@ package app.Clients_Management.com;
 public class DataClients {
 
     String      user_id ;
-    String      user_Name;
+    String      client_name;
     String      user_card;
     String      user_phone;
     String      user_cash;
@@ -20,7 +20,7 @@ public class DataClients {
 
     public DataClients(String user_id, String user_Name, String user_phone,String user_card,String user_cash,String user_buy ,String user_date ) {
         this.user_id = user_id;
-        this.user_Name = user_Name;
+        this.client_name = user_Name;
         this.user_card = user_card;
         this.user_phone = user_phone;
         this.user_cash = user_cash;
@@ -33,8 +33,8 @@ public class DataClients {
         return user_id;
     }
 
-    public String getUser_Name() {
-        return user_Name;
+    public String getClient_name() {
+        return client_name;
     }
 
     public String getUser_card() {

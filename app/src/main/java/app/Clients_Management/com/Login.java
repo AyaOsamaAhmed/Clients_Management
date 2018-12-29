@@ -164,4 +164,29 @@ public class Login extends Activity {
         }
         return false;
     }
-}
+
+    @Override
+    public void onBackPressed() {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("هل انت متاكد انك تريد الخروج من ").setCancelable(false).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+
+
+                }
+            }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+            builder.create().show();
+        }
+
+
+
+    }
+

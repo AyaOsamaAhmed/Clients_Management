@@ -1,8 +1,11 @@
 package app.Clients_Management.com;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +28,7 @@ public class ClientsDetails extends Activity {
 
 
     TextView    new_paid;
-    String      ls_id ,ls_username ;
+    String      ls_id ,ls_username ,ls_clientname ;
     private String ls_phone;
     private String ls_card;
 
@@ -41,14 +45,14 @@ public class ClientsDetails extends Activity {
 
         new_paid = (TextView)findViewById(R.id.new_paid);
         list_view = (ListView)findViewById(R.id.trachslist);
+        list_dataclients = new ArrayList<>();
         //--------
-        ls_id = getIntent().getStringExtra("ID");
+        ls_id_client=getIntent().getStringExtra("ID");
+        ls_clientname=getIntent().getStringExtra("clientname");
         ls_username=getIntent().getStringExtra("username");
         ls_phone=getIntent().getStringExtra("phone");
         ls_card = getIntent().getStringExtra("card");
         //-------Database name
-        ls_username=getIntent().getStringExtra("username");
-        ls_id_client=getIntent().getStringExtra("ID");
         databasename = "Tracks_" + ls_username;
         Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
         //-------Database Firebase
@@ -59,6 +63,10 @@ public class ClientsDetails extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),ClientsPaid.class);
                 intent.putExtra("username", ls_username);
+                intent.putExtra("clientname", ls_clientname);
+                intent.putExtra("phone", ls_phone);
+                intent.putExtra("card", ls_card);
+                intent.putExtra("clientid", ls_id_client);
                 startActivity(intent);
             }
         });
@@ -89,5 +97,35 @@ public class ClientsDetails extends Activity {
 
         super.onStart();
     }
+
+
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Light));
+
+        Intent intent = new Intent(ClientsDetails.this ,ClientsList.class);
+        intent.putExtra("username", ls_username);
+        intent.putExtra("ID", ls_id_client);
+        intent.putExtra("clientname", ls_clientname);
+        intent.putExtra("ID", ls_id_client);
+        intent.putExtra("phone", ls_phone);
+        intent.putExtra("card", ls_card);
+        startActivity(intent);
+
+        // builder.
+       /* builder.setMessage("هل انت متاكد من إلغاء انشاء دفع جديد للعميل ؟").setCancelable(false).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();*/
+    }
+
+
 
 }

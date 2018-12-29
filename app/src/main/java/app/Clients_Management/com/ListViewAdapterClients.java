@@ -74,7 +74,7 @@ public class ListViewAdapterClients extends BaseAdapter {
             final DataClients dataClients = list_clients.get(position);
             //
 
-            Client_name.setText(dataClients.getUser_Name());
+            Client_name.setText(dataClients.getClient_name());
 
 
         // Locate the ImageView in listview_item.xml
@@ -95,7 +95,8 @@ public class ListViewAdapterClients extends BaseAdapter {
                 //intent.putExtra("username",resultp.get(key));
 
                 intent.putExtra("ID",dataClients.getUser_id());
-                intent.putExtra("username",dataClients.getUser_Name());
+                intent.putExtra("username",ls_username);
+                intent.putExtra("clientname",dataClients.getClient_name());
                 intent.putExtra("phone",dataClients.getUser_phone());
                 intent.putExtra("card",dataClients.getUser_card());
                 context.startActivity(intent);
