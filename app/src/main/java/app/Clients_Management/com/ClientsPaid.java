@@ -29,7 +29,7 @@ public class ClientsPaid extends Activity {
     TextView    date ;
     EditText    buy , paid, buy_details ;
     String      ls_id_client ,ls_username , databasename ,ls_clientname;
-    String      ls_date ,ls_buy , ls_paid , ls_buy_details , ls_total ,ls_phone ,ls_card;
+    String      ls_date ,ls_buy , ls_paid , ls_buy_details , ls_total ,ls_phone ,ls_card ,ls_Remainder;
     DatabaseReference   databaseclientspaid;
     DatePickerDialog datePickerDialog ;
     DataPaid        datapaid ;
@@ -82,8 +82,8 @@ public class ClientsPaid extends Activity {
             public void onClick(View view) {
                 setData();
                 if( validation_data()){
-                    String  id = databaseclientspaid.push().getKey();
-                    datapaid  = new DataPaid(id ,ls_clientname,ls_paid,ls_buy,ls_buy_details,ls_date);
+                    String  id = GetIDTrack();
+                    datapaid  = new DataPaid(id ,ls_clientname,ls_paid,ls_buy,ls_buy_details,ls_date ,ls_Remainder);
                     databaseclientspaid.child(id).setValue(datapaid);
 
                     Toast.makeText(ClientsPaid.this, "Saved Data Sucsses", Toast.LENGTH_SHORT).show();
@@ -94,6 +94,7 @@ public class ClientsPaid extends Activity {
                     intent.putExtra("ID", ls_id_client);
                     intent.putExtra("phone", ls_phone);
                     intent.putExtra("card", ls_card);
+                    intent.putExtra("Date", ls_date);
                     startActivity(intent);
                 }
             }
@@ -101,6 +102,13 @@ public class ClientsPaid extends Activity {
 
         });
 
+    }
+
+    private String GetIDTrack() {
+        String id ="";
+
+        
+        return id ;
     }
 
     private Boolean validation_data() {

@@ -38,12 +38,12 @@ public class AddClients extends Activity {
     EditText        name ,phone , card ,cash ,buy  ;
     TextView        total ,date ;
     Button          button_save ;
-    String          ls_id ,ls_name , ls_phone , ls_card , ls_cash ="0.0" , ls_buy="0.0" , ls_total="0.0" , ls_date ;
+    String          ls_id ,ls_name , ls_phone , ls_card , ls_cash ="0.0" , ls_buy="0.0" , ls_total="0.0" , ls_date,ls_Remainder ;
     Double          ld_buy=0.0 , ld_cash=0.0 , ld_total=0.0 ;
     String          databasename;
     DataClients     dataClients;
-
-    DatabaseReference   databaseclients;
+    DataPaid        dataPaid    ;
+    DatabaseReference   databaseclients , databasetracks;
     DatePickerDialog    datePickerDialog ;
     private String ls_username;
 
@@ -117,18 +117,25 @@ public class AddClients extends Activity {
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setData();
-               if( validation_data()){
-                String  id = databaseclients.push().getKey();
-                ls_id = id ;
-                dataClients  = new DataClients(ls_id ,ls_name,ls_phone,ls_card,ls_cash,ls_buy,ls_date);
+        setData();
+       if( validation_data()){
+        String  id = databaseclients.push().getKey();
+        ls_id = id ;
+        dataClients  = new DataClients(ls_id ,ls_name,ls_phone,ls_card,ls_cash,ls_buy,ls_date,ls_Remainder);
+        databaseclients.child(id).setValue(dataClients);
+        Toast.makeText(AddClients.this, "Saved Data Sucsses", Toast.LENGTH_SHORT).show();
+        //----- Tracks Database
+           String  Track_id ="1";
+           String   databasename_Tracks = "Tracks_" + ls_username;
 
-                databaseclients.child(id).setValue(dataClients);
+           databasetracks = FirebaseDatabase.getInstance().getReference(databasename_Tracks);
 
-                Toast.makeText(AddClients.this, "Saved Data Sucsses", Toast.LENGTH_SHORT).show();
-                   Intent intent = new Intent(AddClients.this,ClientsList.class);
-                   intent.putExtra("username", ls_username);
-                   startActivity(intent);
+           dataPaid  = new DataPaid(Track_id ,ls_name,ls_cash,ls_buy,"First",ls_date,ls_Remainder);
+           databasetracks.child(id).setValue(dataPaid);
+       //------ go next page
+       Intent intent = new Intent(AddClients.this,ClientsList.class);
+       intent.putExtra("username", ls_username);
+       startActivity(intent);
             }
             }
         });
@@ -175,6 +182,7 @@ public class AddClients extends Activity {
         ld_cash = Double.parseDouble(ls_cash)+0.0 ;
         ld_total = ld_buy - ld_cash ;
         ls_total = ld_total.toString() ;
+        ls_Remainder=ls_total;
         //-----
         this.total.setText(ls_total);
     }

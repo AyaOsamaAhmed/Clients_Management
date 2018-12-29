@@ -27,15 +27,15 @@ import java.util.List;
 public class ClientsDetails extends Activity {
 
 
-    TextView    new_paid;
+    TextView    new_paid  , last_date;
     String      ls_id ,ls_username ,ls_clientname ;
     private String ls_phone;
     private String ls_card;
 
     DatabaseReference databaseReference;
-    List<DataClients> list_dataclients ;
+    List<DataPaid> list_dataclients ;
     private String    databasename;
-    private String    ls_id_client;
+    private String    ls_id_client ,ls_last_date;
     ListView          list_view;
 
     @Override
@@ -43,8 +43,9 @@ public class ClientsDetails extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_detail);
 
+        last_date = (TextView)findViewById(R.id.last_date);
         new_paid = (TextView)findViewById(R.id.new_paid);
-        list_view = (ListView)findViewById(R.id.trachslist);
+        list_view = (ListView)findViewById(R.id.trackslist);
         list_dataclients = new ArrayList<>();
         //--------
         ls_id_client=getIntent().getStringExtra("ID");
@@ -52,6 +53,9 @@ public class ClientsDetails extends Activity {
         ls_username=getIntent().getStringExtra("username");
         ls_phone=getIntent().getStringExtra("phone");
         ls_card = getIntent().getStringExtra("card");
+        ls_last_date = getIntent().getStringExtra("Date");
+        //----- Set last_date
+        last_date.setText(ls_last_date);
         //-------Database name
         databasename = "Tracks_" + ls_username;
         Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
@@ -80,11 +84,11 @@ public class ClientsDetails extends Activity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 list_dataclients.clear();
                 for(DataSnapshot dataclients : dataSnapshot.getChildren()){
-                    DataClients client  = dataclients.getValue(DataClients.class);
+                    DataPaid client  = dataclients.getValue(DataPaid.class);
                     //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
                     list_dataclients.add(client);
                 }
-                ListViewAdapterClients adapter = new ListViewAdapterClients(ClientsDetails.this, list_dataclients ,ls_username );
+                ListViewAdapterClientTracks adapter = new ListViewAdapterClientTracks(ClientsDetails.this, list_dataclients ,ls_username );
                 list_view.setAdapter(adapter);
 
             }
@@ -102,8 +106,6 @@ public class ClientsDetails extends Activity {
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Light));
-
         Intent intent = new Intent(ClientsDetails.this ,ClientsList.class);
         intent.putExtra("username", ls_username);
         intent.putExtra("ID", ls_id_client);
@@ -113,17 +115,7 @@ public class ClientsDetails extends Activity {
         intent.putExtra("card", ls_card);
         startActivity(intent);
 
-        // builder.
-       /* builder.setMessage("هل انت متاكد من إلغاء انشاء دفع جديد للعميل ؟").setCancelable(false).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
 
-            }
-        }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        builder.create().show();*/
     }
 
 

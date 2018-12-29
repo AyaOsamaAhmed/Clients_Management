@@ -12,16 +12,18 @@ public class DataPaid  {
     String      user_buy;
     String      paid_details ;
     String      user_date;
+    String      Remainder  ;
 
     public DataPaid(){}
 
-    public DataPaid(String paid_id, String client_Name, String user_cash, String user_buy, String paid_details, String user_date) {
+    public DataPaid(String paid_id, String client_Name, String user_cash, String user_buy, String paid_details, String user_date, String remainder) {
         this.paid_id = paid_id;
         this.client_Name = client_Name;
         this.user_cash = user_cash;
         this.user_buy = user_buy;
         this.paid_details = paid_details;
         this.user_date = user_date;
+        Remainder = remainder;
     }
 
     public String getPaid_id() {
@@ -46,5 +48,9 @@ public class DataPaid  {
 
     public String getUser_date() {
         return user_date;
+    }
+
+    public String getRemainder() {
+        return Remainder;
     }
 }

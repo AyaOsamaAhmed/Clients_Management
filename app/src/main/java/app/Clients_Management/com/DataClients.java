@@ -13,21 +13,21 @@ public class DataClients {
     String      user_cash;
     String      user_buy;
     String      user_date;
-
+    String      Remainder ;
 
     public DataClients(){}
 
 
-    public DataClients(String user_id, String user_Name, String user_phone,String user_card,String user_cash,String user_buy ,String user_date ) {
+    public DataClients(String user_id, String client_name, String user_card, String user_phone, String user_cash, String user_buy, String user_date, String remainder) {
         this.user_id = user_id;
-        this.client_name = user_Name;
+        this.client_name = client_name;
         this.user_card = user_card;
         this.user_phone = user_phone;
         this.user_cash = user_cash;
         this.user_buy = user_buy;
         this.user_date = user_date;
+        Remainder = remainder;
     }
-
 
     public String getUser_id() {
         return user_id;
@@ -56,4 +56,7 @@ public class DataClients {
         return user_date;
     }
 
+    public String getRemainder() {
+        return Remainder;
+    }
 }
