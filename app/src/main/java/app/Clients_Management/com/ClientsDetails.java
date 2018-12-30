@@ -83,8 +83,8 @@ public class ClientsDetails extends Activity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 list_dataclients.clear();
-                for(DataSnapshot dataclients : dataSnapshot.getChildren()){
-                    DataPaid client  = dataclients.getValue(DataPaid.class);
+                for(DataSnapshot datapaid : dataSnapshot.getChildren()){
+                    DataPaid client  = datapaid.getValue(DataPaid.class);
                     //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
                     list_dataclients.add(client);
                 }

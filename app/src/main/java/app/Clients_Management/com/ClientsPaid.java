@@ -14,8 +14,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
@@ -29,8 +32,10 @@ public class ClientsPaid extends Activity {
     TextView    date ;
     EditText    buy , paid, buy_details ;
     String      ls_id_client ,ls_username , databasename ,ls_clientname;
-    String      ls_date ,ls_buy , ls_paid , ls_buy_details , ls_total ,ls_phone ,ls_card ,ls_Remainder;
-    DatabaseReference   databaseclientspaid;
+    String      ls_date ,ls_buy , ls_paid , ls_buy_details , ls_total ,ls_phone ,ls_card ,ls_Remainder , ls_old_remainded;
+
+    Long        ls_old_id;
+    DatabaseReference   databaseclientspaid ;
     DatePickerDialog datePickerDialog ;
     DataPaid        datapaid ;
     @Override
@@ -82,9 +87,10 @@ public class ClientsPaid extends Activity {
             public void onClick(View view) {
                 setData();
                 if( validation_data()){
-                    String  id = GetIDTrack();
-                    datapaid  = new DataPaid(id ,ls_clientname,ls_paid,ls_buy,ls_buy_details,ls_date ,ls_Remainder);
-                    databaseclientspaid.child(id).setValue(datapaid);
+                    Long  id = GetIDTrack();
+                    Toast.makeText(ClientsPaid.this, id.toString(), Toast.LENGTH_SHORT).show();
+                    datapaid  = new DataPaid(id.toString() ,ls_clientname,ls_paid,ls_buy,ls_buy_details,ls_date ,ls_Remainder);
+                    databaseclientspaid.child(id.toString()).setValue(datapaid);
 
                     Toast.makeText(ClientsPaid.this, "Saved Data Sucsses", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ClientsPaid.this,ClientsDetails.class);
@@ -104,13 +110,44 @@ public class ClientsPaid extends Activity {
 
     }
 
-    private String GetIDTrack() {
-        String id ="";
-
-        
-        return id ;
+    private Long GetIDTrack() {
+        Long  ls_new_id ;
+            ls_new_id= ls_old_id + 1;
+        return ls_new_id ;
     }
 
+
+    @Override
+    protected void onStart() {
+
+        databaseclientspaid.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String ls_remainded_retrive = "0" ;
+
+                ls_old_id = dataSnapshot.getChildrenCount();
+                DataSnapshot remainded =  dataSnapshot.child(ls_old_id.toString());
+                DataPaid  last_remainded =  remainded.getValue(DataPaid.class);
+                ls_old_remainded =  last_remainded.getRemainder();
+                Toast.makeText(ClientsPaid.this," old remainded"+ ls_old_remainded, Toast.LENGTH_SHORT).show();
+                   // ls_remainded_retrive = client.getRemainder();
+
+                    Toast.makeText(ClientsPaid.this, ls_old_id .toString(), Toast.LENGTH_SHORT).show();
+
+              //  if(! ls_remainded_retrive.isEmpty())
+               // remainded_retrive.parseInt(ls_remainded_retrive);
+                Toast.makeText(ClientsPaid.this, ls_remainded_retrive+"-----"+ls_old_id, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        super.onStart();
+    }
     private Boolean validation_data() {
         if (ls_buy_details.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال تفاصيل المشتريات للعميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_paid.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال المبلغ المدفوع الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
@@ -137,6 +174,7 @@ public class ClientsPaid extends Activity {
         ld_buy = Double.parseDouble(ls_buy) + 0.0 ;
         ld_paid = Double.parseDouble(ls_paid)+0.0 ;
         ld_total = ld_buy - ld_paid ;
+        ls_Remainder = ls_total ;
         ls_total = ld_total.toString() ;
         //-----
        // this.total.setText(ls_total);

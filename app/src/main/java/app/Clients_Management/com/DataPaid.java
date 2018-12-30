@@ -12,7 +12,7 @@ public class DataPaid  {
     String      user_buy;
     String      paid_details ;
     String      user_date;
-    String      Remainder  ;
+    String      remainder  ;
 
     public DataPaid(){}
 
@@ -23,7 +23,7 @@ public class DataPaid  {
         this.user_buy = user_buy;
         this.paid_details = paid_details;
         this.user_date = user_date;
-        Remainder = remainder;
+        this.remainder = remainder;
     }
 
     public String getPaid_id() {
@@ -51,6 +51,6 @@ public class DataPaid  {
     }
 
     public String getRemainder() {
-        return Remainder;
+        return remainder;
     }
 }

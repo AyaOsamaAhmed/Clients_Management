@@ -13,7 +13,7 @@ public class DataClients {
     String      user_cash;
     String      user_buy;
     String      user_date;
-    String      Remainder ;
+    String      remainder ;
 
     public DataClients(){}
 
@@ -26,7 +26,7 @@ public class DataClients {
         this.user_cash = user_cash;
         this.user_buy = user_buy;
         this.user_date = user_date;
-        Remainder = remainder;
+        this.remainder = remainder;
     }
 
     public String getUser_id() {
@@ -57,6 +57,6 @@ public class DataClients {
     }
 
     public String getRemainder() {
-        return Remainder;
+        return remainder;
     }
 }

@@ -35,17 +35,17 @@ import static android.content.ContentValues.TAG;
 
 public class AddClients extends Activity {
 
-    EditText        name ,phone , card ,cash ,buy  ;
-    TextView        total ,date ;
-    Button          button_save ;
-    String          ls_id ,ls_name , ls_phone , ls_card , ls_cash ="0.0" , ls_buy="0.0" , ls_total="0.0" , ls_date,ls_Remainder ;
-    Double          ld_buy=0.0 , ld_cash=0.0 , ld_total=0.0 ;
-    String          databasename;
-    DataClients     dataClients;
-    DataPaid        dataPaid    ;
+    EditText            name ,phone , card ,cash ,buy  ;
+    TextView            total ,date ;
+    Button              button_save ;
+    String              ls_id ,ls_name , ls_phone , ls_card , ls_cash ="0.0" , ls_buy="0.0" , ls_total="0.0" , ls_date,ls_Remainder ;
+    Double              ld_buy=0.0 , ld_cash=0.0 , ld_total=0.0 ;
+    String              databasename;
+    DataClients         dataClients;
+    DataPaid            dataPaid    ;
     DatabaseReference   databaseclients , databasetracks;
     DatePickerDialog    datePickerDialog ;
-    private String ls_username;
+    private String      ls_username ,ls_clientid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,8 @@ public class AddClients extends Activity {
         setContentView(R.layout.addclients);
         //-------Database Firebase
         ls_username=getIntent().getStringExtra("username");
+        ls_clientid=getIntent().getStringExtra("clientid");
+
         databasename = "Clients_" + ls_username;
         Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
         // name clients
@@ -128,10 +130,10 @@ public class AddClients extends Activity {
            String  Track_id ="1";
            String   databasename_Tracks = "Tracks_" + ls_username;
 
-           databasetracks = FirebaseDatabase.getInstance().getReference(databasename_Tracks);
+           databasetracks = FirebaseDatabase.getInstance().getReference(databasename_Tracks).child(ls_id);
 
            dataPaid  = new DataPaid(Track_id ,ls_name,ls_cash,ls_buy,"First",ls_date,ls_Remainder);
-           databasetracks.child(id).setValue(dataPaid);
+           databasetracks.child(Track_id).setValue(dataPaid);
        //------ go next page
        Intent intent = new Intent(AddClients.this,ClientsList.class);
        intent.putExtra("username", ls_username);
