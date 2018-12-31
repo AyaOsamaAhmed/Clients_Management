@@ -53,7 +53,7 @@ public class ClientsList extends Activity {
         //-------Database name
         ls_username=getIntent().getStringExtra("username");
         databasename = "Clients_" + ls_username;
-        Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
         //-------Database Firebase
         databaseReference = FirebaseDatabase.getInstance().getReference(databasename);
         //------------

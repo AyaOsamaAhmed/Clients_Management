@@ -55,7 +55,7 @@ public class Login extends Activity {
             @Override
             public void onClick(View view) {
                 setData();
-                Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
                 if (ls_username.isEmpty()) {
                     Toast.makeText(Login.this, "من فضلك قم بإدخال اسم المستخدم الخاص بك", Toast.LENGTH_SHORT).show();
                 }else if (ls_password.isEmpty()) {
@@ -66,7 +66,7 @@ public class Login extends Activity {
 
                 } else if (checkNetwork()) {
                     if (checkUsers(ls_username)) {
-                        Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
+                //        Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), ClientsList.class);
                         intent.putExtra("username", ls_username);
                         startActivity(intent);
