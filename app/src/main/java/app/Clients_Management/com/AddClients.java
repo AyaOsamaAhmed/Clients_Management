@@ -56,9 +56,10 @@ public class AddClients extends Activity {
         ls_clientid=getIntent().getStringExtra("clientid");
 
         databasename = "Clients_" + ls_username;
-        Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
         // name clients
         databaseclients = FirebaseDatabase.getInstance().getReference(databasename);
+        databaseclients.keepSynced(true);
         //------------------- Declear
         name = (EditText)findViewById(R.id.name);
         phone = (EditText)findViewById(R.id.phone);
@@ -120,7 +121,7 @@ public class AddClients extends Activity {
             @Override
             public void onClick(View view) {
         setData();
-       if( validation_data()){
+       if( validation_data() && !ls_username.equals("عبد الرحمن")){
         String  id = databaseclients.push().getKey();
         ls_id = id ;
         dataClients  = new DataClients(ls_id ,ls_name,ls_phone,ls_card,ls_cash,ls_buy,ls_date,ls_Remainder);
@@ -131,7 +132,8 @@ public class AddClients extends Activity {
            String   databasename_Tracks = "Tracks_" + ls_username;
 
            databasetracks = FirebaseDatabase.getInstance().getReference(databasename_Tracks).child(ls_id);
-
+            databasetracks.keepSynced(true);
+           //------
            dataPaid  = new DataPaid(Track_id ,ls_name,ls_cash,ls_buy,"First",ls_date,ls_Remainder);
            databasetracks.child(Track_id).setValue(dataPaid);
        //------ go next page

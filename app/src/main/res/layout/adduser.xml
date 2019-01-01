@@ -67,6 +67,14 @@
                     android:textStyle="bold"
                     android:layout_margin="@dimen/marginleft_size"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="نشيط او لا :"
+                    android:textSize="@dimen/size_text"
+                    android:textStyle="bold"
+                    android:layout_margin="@dimen/marginleft_size"
+                    />
             </LinearLayout>
 
     <LinearLayout
@@ -76,6 +84,7 @@
         android:layout_toStartOf="@id/text_layout"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:id="@+id/edit_layout"
         >
         <EditText
                 android:layout_width="wrap_content"
@@ -83,8 +92,9 @@
                 android:background="@mipmap/btext"
                 android:id="@+id/name"
                 android:inputType="text"
-                android:layout_marginTop="20dp"
 
+            android:layout_marginTop="20dp"
+                android:layout_weight="1"
                 />
 
             <EditText
@@ -93,8 +103,10 @@
                 android:background="@mipmap/btext"
                 android:id="@+id/phone"
                 android:inputType="number"
-                android:layout_marginTop="25dp"
                 android:maxLength="15"
+
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
                 />
             <EditText
                 android:layout_width="wrap_content"
@@ -102,8 +114,8 @@
                 android:background="@mipmap/btext"
                 android:id="@+id/username"
                 android:inputType="text"
-                android:layout_marginTop="23dp"
-
+                android:layout_marginTop="25dp"
+                android:layout_weight="1"
 
                 />
 
@@ -113,26 +125,38 @@
                 android:background="@mipmap/btext"
                 android:id="@+id/password"
                 android:inputType="numberDecimal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
+                android:layout_weight="1"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/calendertext"
                 android:id="@+id/date"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
+                android:layout_weight="1"
                 />
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/btext"
+            android:id="@+id/active"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            />
     </LinearLayout>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_layout"
+                android:layout_below="@+id/edit_layout"
                 android:id="@+id/button_save"
                 android:background="@mipmap/button"
                 android:text="حفظ"

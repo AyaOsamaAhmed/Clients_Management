@@ -54,8 +54,9 @@ public class ClientsList extends Activity {
         ls_username=getIntent().getStringExtra("username");
         databasename = "Clients_" + ls_username;
        // Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
-        //-------Database Firebase
+        //-------Database Firebase intent.putExtra("username", ls_username);
         databaseReference = FirebaseDatabase.getInstance().getReference(databasename);
+        databaseReference.keepSynced(true);
         //------------
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override

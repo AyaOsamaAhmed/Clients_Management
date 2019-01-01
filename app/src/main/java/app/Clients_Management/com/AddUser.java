@@ -27,10 +27,10 @@ import java.util.Calendar;
 
 public class AddUser extends Activity {
 
-    EditText        name ,phone , username ,password  ;
+    EditText        name ,phone , username ,password ,active ;
     TextView        date ;
     Button          button_save ;
-    String          ls_id ,ls_name , ls_phone , ls_username , ls_password  ,  ls_date ;
+    String          ls_id ,ls_name , ls_phone , ls_username , ls_password  ,  ls_date ,ls_active;
     String          databasename;
     DataUsers       dataUeser;
 
@@ -43,12 +43,14 @@ public class AddUser extends Activity {
         //-------Database Firebase
         databasename = "Users";                                                      // name clients
         databaseclients = FirebaseDatabase.getInstance().getReference(databasename);
+        databaseclients.keepSynced(true);
         //------------------- Declear
         name = (EditText)findViewById(R.id.name);
         phone = (EditText)findViewById(R.id.phone);
         username = (EditText)findViewById(R.id.username);
         password = (EditText)findViewById(R.id.password);
         date = (TextView) findViewById(R.id.date);
+        active = (EditText)findViewById(R.id.active);
         button_save =(Button)findViewById(R.id.button_save);
         //--------- Set Data
         setData();
@@ -81,7 +83,7 @@ public class AddUser extends Activity {
                 if( validation_data()){
                     String  id = databaseclients.push().getKey();
                     ls_id = id ;
-                    dataUeser  = new DataUsers(ls_id ,ls_username,ls_name,ls_password,ls_phone,ls_date);
+                    dataUeser  = new DataUsers(ls_id ,ls_username,ls_name,ls_password,ls_phone,ls_date ,ls_active);
 
                     databaseclients.child(id).setValue(dataUeser);
                     Toast.makeText(AddUser.this, "Saved Data Sucsses", Toast.LENGTH_SHORT).show();
@@ -121,6 +123,7 @@ public class AddUser extends Activity {
         ls_password  = password.getText().toString();
         ls_phone = phone.getText().toString();
         ls_date =date.getText().toString();
+        ls_active = active.getText().toString();
     }
 
     @Override

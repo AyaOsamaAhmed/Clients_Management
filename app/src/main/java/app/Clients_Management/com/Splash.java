@@ -36,6 +36,7 @@ public class Splash extends Activity {
                     }
 
                     Intent intent = new Intent(getApplicationContext(),Login.class);
+                   // intent.putExtra("username", "عبد الرحمن");
                     startActivity(intent);
                     finish();
                 } catch (InterruptedException e) {

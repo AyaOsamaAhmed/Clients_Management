@@ -66,7 +66,8 @@ public class ClientsDetails extends Activity {
        // Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
         //-------Database Firebase
         databaseReference = FirebaseDatabase.getInstance().getReference(databasename).child(ls_id_client);
-
+        databaseReference.keepSynced(true);
+        //--------
         new_paid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,7 +134,8 @@ public class ClientsDetails extends Activity {
                     String  ls_old_remainded;
                     old_id = dataSnapshot.getChildrenCount();
                     databaseclientremainded = FirebaseDatabase.getInstance().getReference(databasename).child(ls_id_client).child(old_id.toString());
-
+                    databaseclientremainded.keepSynced(true);
+                    //------
                     DataSnapshot remainded =  dataSnapshot.child(old_id.toString());
                     DataPaid  last_remainded =  remainded.getValue(DataPaid.class);
                     ls_remainded =  last_remainded.getRemainder();

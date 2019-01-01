@@ -50,6 +50,7 @@ public class Login extends Activity {
         //-----
         databasename = "Users";                                                      // name clients
         databaseReference = FirebaseDatabase.getInstance().getReference(databasename);
+        databaseReference.keepSynced(true);
         //---------
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,17 +65,12 @@ public class Login extends Activity {
                             Intent intent = new Intent(Login.this,AddUser.class);
                             startActivity(intent);
 
-                } else if (checkNetwork()) {
-                    if (checkUsers(ls_username)) {
+                }
+                 else if (checkUsers(ls_username , ls_password)) {
                 //        Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), ClientsList.class);
                         intent.putExtra("username", ls_username);
                         startActivity(intent);
-                    }
-
-                } else {
-                    alart();
-
                 }
             }
         });
@@ -153,15 +149,21 @@ public class Login extends Activity {
         super.onStart();
     }
 
-    private Boolean checkUsers ( String user){
+    private Boolean checkUsers ( String user , String pass){
 
         for (int i = 0 ; i < list_datausers.size() ; i++){
             DataUsers datausers = list_datausers.get(i);
             if (user.equals(datausers.getUser_Name())){
-                return true;
+                if (pass.equals(datausers.getPassword())) {
+                    return true;
+                } else {
+                    Toast.makeText(this, "كلمه المرور غير صحيحه ", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
             }
 
         }
+        Toast.makeText(this, "اسم المستخدم غير صحيح او غير مسجل .. ارجو التسجيل", Toast.LENGTH_SHORT).show();
         return false;
     }
 

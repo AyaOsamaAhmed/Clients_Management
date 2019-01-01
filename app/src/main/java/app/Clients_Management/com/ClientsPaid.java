@@ -86,7 +86,7 @@ public class ClientsPaid extends Activity {
           //  Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
             //-------Database Firebase
             databaseclientspaid = FirebaseDatabase.getInstance().getReference(databasename).child(ls_id_client);
-
+            databaseclientspaid.keepSynced(true);
             //----- button clicking
             date.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -113,7 +113,7 @@ public class ClientsPaid extends Activity {
                 @Override
                 public void onClick(View view) {
                     setData();
-                    if (validation_data()) {
+                    if (validation_data() && !ls_username.equals("عبد الرحمن")) {
                         CalcTotal();
                         Long id = GetIDTrack();
                      //   Toast.makeText(ClientsPaid.this, id.toString(), Toast.LENGTH_SHORT).show();
@@ -155,7 +155,8 @@ public class ClientsPaid extends Activity {
 
                 old_id = dataSnapshot.getChildrenCount();
                 databaseclientremainded = FirebaseDatabase.getInstance().getReference(databasename).child(ls_id_client).child(old_id.toString());
-
+                databaseclientremainded.keepSynced(true);
+                //-------
                 DataSnapshot remainded =  dataSnapshot.child(old_id.toString());
                 DataPaid  last_remainded =  remainded.getValue(DataPaid.class);
                 ls_old_remainded =  last_remainded.getRemainder();
