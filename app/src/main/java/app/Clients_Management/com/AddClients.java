@@ -121,10 +121,10 @@ public class AddClients extends Activity {
             @Override
             public void onClick(View view) {
         setData();
-       if( validation_data() && !ls_username.equals("عبد الرحمن")){
+       if( validation_data() ){
         String  id = databaseclients.push().getKey();
         ls_id = id ;
-        dataClients  = new DataClients(ls_id ,ls_name,ls_phone,ls_card,ls_cash,ls_buy,ls_date,ls_Remainder);
+        dataClients  = new DataClients(ls_id ,ls_name,ls_card,ls_phone,ls_cash,ls_buy,ls_date,ls_Remainder);
         databaseclients.child(id).setValue(dataClients);
         Toast.makeText(AddClients.this, "Saved Data Sucsses", Toast.LENGTH_SHORT).show();
         //----- Tracks Database

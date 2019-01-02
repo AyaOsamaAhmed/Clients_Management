@@ -113,7 +113,7 @@ public class ClientsPaid extends Activity {
                 @Override
                 public void onClick(View view) {
                     setData();
-                    if (validation_data() && !ls_username.equals("عبد الرحمن")) {
+                    if (validation_data() ) {
                         CalcTotal();
                         Long id = GetIDTrack();
                      //   Toast.makeText(ClientsPaid.this, id.toString(), Toast.LENGTH_SHORT).show();
