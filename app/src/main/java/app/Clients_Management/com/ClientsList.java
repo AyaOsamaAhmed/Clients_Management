@@ -5,8 +5,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -37,6 +40,7 @@ public class ClientsList extends Activity {
 
     DatabaseReference   databaseReference;
     List<DataClients> list_dataclients ;
+    ArrayAdapter<String>    filter_dataclients ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +53,7 @@ public class ClientsList extends Activity {
         hash_employees = new HashMap<String, String>();
         list_dataclients = new ArrayList<>();
         add_button = (Button)findViewById(R.id.add_button);
-
+        filter_dataclients =new ArrayAdapter<String>(this, R.layout.clientslist_inside ,R.id.Client_name );
         //-------Database name
         ls_username=getIntent().getStringExtra("username");
         databasename = "Clients_" + ls_username;
@@ -58,10 +62,28 @@ public class ClientsList extends Activity {
         databaseReference = FirebaseDatabase.getInstance().getReference(databasename);
         databaseReference.keepSynced(true);
         //------------
+        search_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // When user changed the Text
+                ClientsList.this.filter_dataclients.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                ClientsList.this.filter_dataclients.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ls_search_text = search_text.getText().toString();
+
                 if (ls_search_text.isEmpty()){
                     Toast.makeText(ClientsList.this, " يجب كتابه اسم العميل قبل الضغط على بحث", Toast.LENGTH_SHORT).show();
                 }else
