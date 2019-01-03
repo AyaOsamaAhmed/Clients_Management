@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.CharacterPickerDialog;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,12 +37,11 @@ public class ClientsList extends Activity {
     ListView        list_view;
     Button          search_button,add_button;
     String          ls_search_text ,ls_username ,databasename ;
-    ArrayList<HashMap<String, String>> arrayList_employee ;
-    HashMap<String, String> hash_employees;
 
     DatabaseReference   databaseReference;
-    List<DataClients> list_dataclients ;
-    ArrayAdapter<String>    filter_dataclients ;
+    List<DataClients> list_dataclients  ;
+    ArrayList  <String>   arrayList_data   ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +50,9 @@ public class ClientsList extends Activity {
         search_text=(EditText)findViewById(R.id.search_text);
         search_button=(Button)findViewById(R.id.search_button);
         list_view = (ListView)findViewById(R.id.clientslist);
-        arrayList_employee = new ArrayList<HashMap<String, String>>();
-        hash_employees = new HashMap<String, String>();
         list_dataclients = new ArrayList<>();
         add_button = (Button)findViewById(R.id.add_button);
-        filter_dataclients =new ArrayAdapter<String>(this, R.layout.clientslist_inside ,R.id.Client_name );
+        arrayList_data = new  ArrayList<String>();
         //-------Database name
         ls_username=getIntent().getStringExtra("username");
         databasename = "Clients_" + ls_username;
@@ -62,16 +61,31 @@ public class ClientsList extends Activity {
         databaseReference = FirebaseDatabase.getInstance().getReference(databasename);
         databaseReference.keepSynced(true);
         //------------
+        list_view.setTextFilterEnabled(true);
+        list_view.setAdapter(new CustomArrayAdapter(ClientsList.this,arrayList_data ,ls_username ,list_dataclients ));
+        
+        //--------
         search_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // When user changed the Text
-                ClientsList.this.filter_dataclients.getFilter().filter(charSequence);
+
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                ClientsList.this.filter_dataclients.getFilter().filter(charSequence);
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                ArrayList<String> search = new ArrayList<String>();
+                int lenghtSearch = search_text.getText().length();
+                search.clear();
+                for (int i = 0 ; i<arrayList_data.size() ; i++){
+                    if (lenghtSearch <= arrayList_data.get(i).length()){
+                        if (search_text.getText().toString().equalsIgnoreCase((String) arrayList_data.get(i).subSequence(0,lenghtSearch) ) ){
+                             search.add(arrayList_data.get(i));
+                        }
+                    }
+                }
+                list_view.setAdapter(new CustomArrayAdapter(ClientsList.this,search ,ls_username , list_dataclients));
+            //    ClientsList.this.filter_dataclients.getFilter().filter(charSequence.toString());
             }
 
             @Override
@@ -124,9 +138,10 @@ public class ClientsList extends Activity {
                     DataClients client  = dataclients.getValue(DataClients.class);
                 //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
                     list_dataclients.add(client);
+                    arrayList_data.add(client.getClient_name());
                 }
-                ListViewAdapterClients adapter = new ListViewAdapterClients(ClientsList.this, list_dataclients ,ls_username );
-                list_view.setAdapter(adapter);
+             //   ListViewAdapterClients adapter = new ListViewAdapterClients(ClientsList.this, list_dataclients ,ls_username );
+               // list_view.setAdapter(adapter);
 
             }
 
