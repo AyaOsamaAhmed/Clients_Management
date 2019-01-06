@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +37,7 @@ public class ClientsDetails extends Activity {
     private String ls_phone;
     private String ls_card;
 
+    ImageView       whatsapp;
     DatabaseReference databaseReference  , databaseclientremainded;
     List<DataPaid> list_dataclients ;
     private String    databasename;
@@ -51,6 +54,7 @@ public class ClientsDetails extends Activity {
         last_date = (TextView)findViewById(R.id.last_date);
         new_paid = (TextView)findViewById(R.id.new_paid);
         list_view = (ListView)findViewById(R.id.trackslist);
+        whatsapp = (ImageView)findViewById(R.id.whatsapp);
         list_dataclients = new ArrayList<>();
         //--------
         ls_id_client=getIntent().getStringExtra("ID");
@@ -60,7 +64,7 @@ public class ClientsDetails extends Activity {
         ls_card = getIntent().getStringExtra("card");
         ls_last_date = getIntent().getStringExtra("Date");
         ls_remainded = getIntent().getStringExtra("remainded");
-
+        Toast.makeText(this, ls_phone, Toast.LENGTH_SHORT).show();
         //-------Database name
         databasename = "Tracks_" + ls_username;
        // Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
@@ -82,6 +86,16 @@ public class ClientsDetails extends Activity {
         });
 
        registerForContextMenu(list_view);
+
+        whatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=+20"+ls_phone+"&text= إجمالى المتبقى "+ls_remainded));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

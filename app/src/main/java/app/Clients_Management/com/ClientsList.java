@@ -63,7 +63,7 @@ public class ClientsList extends Activity {
         //------------
         list_view.setTextFilterEnabled(true);
         list_view.setAdapter(new CustomArrayAdapter(ClientsList.this,arrayList_data ,ls_username ,list_dataclients ));
-        
+
         //--------
         search_text.addTextChangedListener(new TextWatcher() {
             @Override

@@ -5,12 +5,15 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +38,7 @@ public class ClientsPaid extends Activity {
     EditText    buy , paid, buy_details ;
     String      ls_id_client ,ls_username , databasename ,ls_clientname;
     String      ls_date ,ls_buy , ls_paid , ls_buy_details , ls_total ,ls_phone ,ls_card  , ls_old_remainded, ls_new_remainded;
-
+    ImageView   whatsapp;
     Long        old_id ;
     Double       old_remainded;
     DatabaseReference   databaseclientspaid , databaseclientremainded;
@@ -51,6 +54,7 @@ public class ClientsPaid extends Activity {
         paid = (EditText)findViewById(R.id.paid);
         buy_details = (EditText)findViewById(R.id.buy_details);
         button_save =(Button)findViewById(R.id.button_save);
+        whatsapp  = (ImageView)findViewById(R.id.whatsapp);
         //------ Details Part
         if(getIntent().getBooleanExtra("details",false)){
             ls_id_client = getIntent().getStringExtra("clientid");
@@ -73,6 +77,8 @@ public class ClientsPaid extends Activity {
             paid.setText(ls_paid);
             buy.setText(ls_buy);
             buy_details.setText(ls_buy_details);
+            //---------
+
         }else {
 
             //------ receive data
