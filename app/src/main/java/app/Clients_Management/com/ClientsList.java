@@ -62,7 +62,7 @@ public class ClientsList extends Activity {
         databaseReference.keepSynced(true);
         //------------
         list_view.setTextFilterEnabled(true);
-        list_view.setAdapter(new CustomArrayAdapter(ClientsList.this,arrayList_data ,ls_username ,list_dataclients ));
+        list_view.setAdapter(new ListViewAdapterClients(ClientsList.this,list_dataclients ,ls_username ));
 
         //--------
         search_text.addTextChangedListener(new TextWatcher() {
@@ -74,7 +74,7 @@ public class ClientsList extends Activity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                ArrayList<String> search = new ArrayList<String>();
+              /*  ArrayList<String> search = new ArrayList<String>();
                 int lenghtSearch = search_text.getText().length();
                 search.clear();
                 for (int i = 0 ; i<arrayList_data.size() ; i++){
@@ -85,11 +85,22 @@ public class ClientsList extends Activity {
                     }
                 }
                 list_view.setAdapter(new CustomArrayAdapter(ClientsList.this,search ,ls_username , list_dataclients));
-            //    ClientsList.this.filter_dataclients.getFilter().filter(charSequence.toString());
+         */   //    ClientsList.this.filter_dataclients.getFilter().filter(charSequence.toString());
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                ArrayList<String> search = new ArrayList<String>();
+                int lenghtSearch = search_text.getText().length();
+                search.clear();
+                for (int i = 0 ; i<arrayList_data.size() ; i++){
+                    if (lenghtSearch <= arrayList_data.get(i).length()){
+                        if (search_text.getText().toString().equalsIgnoreCase((String) arrayList_data.get(i).subSequence(0,lenghtSearch) ) ){
+                            search.add(arrayList_data.get(i));
+                        }
+                    }
+                }
+                list_view.setAdapter(new CustomArrayAdapter(ClientsList.this,search ,ls_username , list_dataclients));
 
             }
         });

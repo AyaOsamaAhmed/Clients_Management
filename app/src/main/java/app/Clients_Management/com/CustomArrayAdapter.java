@@ -52,11 +52,13 @@ public class CustomArrayAdapter  extends ArrayAdapter<String> {
         Button      bt =(Button)convertView.findViewById(R.id.button_details);
 
         item.setText(arrayList_data.get(position));
+
+
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( context,ClientsDetails.class);
-
+                Toast.makeText(context, position+"", Toast.LENGTH_SHORT).show();
                 arrayList_data.get(position);
                 final DataClients dataClients = list_clients.get(position);
                 intent.putExtra("ID",dataClients.getUser_id());
