@@ -88,6 +88,14 @@
                     android:textStyle="bold"
                     android:layout_margin="@dimen/marginleft_size"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="تفاصيل المشتريات :"
+                    android:textSize="@dimen/size_text"
+                    android:textStyle="bold"
+                    android:layout_margin="@dimen/marginleft_size"
+                    />
             </LinearLayout>
 
     <LinearLayout
@@ -97,6 +105,7 @@
         android:layout_toStartOf="@id/text_layout"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:id="@+id/edit_layout"
         >
         <EditText
                 android:layout_width="wrap_content"
@@ -170,12 +179,25 @@
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
                 />
-
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/btext"
+            android:id="@+id/buy_details"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="horizontal"
+            android:maxLines="4"
+            />
     </LinearLayout>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_layout"
+                android:layout_below="@+id/edit_layout"
                 android:id="@+id/button_save"
                 android:background="@mipmap/button"
                 android:text="حفظ"

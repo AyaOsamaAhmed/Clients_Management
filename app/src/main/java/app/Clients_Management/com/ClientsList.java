@@ -38,6 +38,7 @@ public class ClientsList extends Activity {
     Button          search_button,add_button;
     String          ls_search_text ,ls_username ,databasename ;
 
+    HashMap<String,Integer> hashMap_position ;
     DatabaseReference   databaseReference;
     List<DataClients> list_dataclients  ;
     ArrayList  <String>   arrayList_data   ;
@@ -53,6 +54,7 @@ public class ClientsList extends Activity {
         list_dataclients = new ArrayList<>();
         add_button = (Button)findViewById(R.id.add_button);
         arrayList_data = new  ArrayList<String>();
+        hashMap_position = new HashMap<String, Integer>();
         //-------Database name
         ls_username=getIntent().getStringExtra("username");
         databasename = "Clients_" + ls_username;
@@ -100,7 +102,7 @@ public class ClientsList extends Activity {
                         }
                     }
                 }
-                list_view.setAdapter(new CustomArrayAdapter(ClientsList.this,search ,ls_username , list_dataclients));
+                list_view.setAdapter(new CustomArrayAdapter(ClientsList.this,search ,ls_username , list_dataclients , hashMap_position));
 
             }
         });
@@ -144,12 +146,15 @@ public class ClientsList extends Activity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                    int i = 0 ;
                     list_dataclients.clear();
                 for(DataSnapshot dataclients : dataSnapshot.getChildren()){
                     DataClients client  = dataclients.getValue(DataClients.class);
                 //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
                     list_dataclients.add(client);
                     arrayList_data.add(client.getClient_name());
+                    hashMap_position.put(client.getClient_name(),i);
+                    i++;
                 }
              //   ListViewAdapterClients adapter = new ListViewAdapterClients(ClientsList.this, list_dataclients ,ls_username );
                // list_view.setAdapter(adapter);

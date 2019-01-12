@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,7 +27,8 @@ public class CustomArrayAdapter  extends ArrayAdapter<String> {
     LayoutInflater          layoutInflater ;
     String                  ls_username ;
     List<DataClients>     list_clients ;
-      public CustomArrayAdapter(Context context, ArrayList<String> arrayList_data ,String ls_username ,List<DataClients> list_data ) {
+    HashMap<String,Integer> hashmap  ;
+      public CustomArrayAdapter(Context context, ArrayList<String> arrayList_data , String ls_username , List<DataClients> list_data , HashMap<String,Integer> hashmap ) {
 
         super(context, R.layout.clientslist_inside,arrayList_data);
         this.context = context;
@@ -36,6 +38,7 @@ public class CustomArrayAdapter  extends ArrayAdapter<String> {
           this.ls_username = ls_username ;
           list_clients = new ArrayList<>();
           list_clients = list_data ;
+          this.hashmap = hashmap;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class CustomArrayAdapter  extends ArrayAdapter<String> {
         return super.getContext();
     }
 
-    @SuppressWarnings("rawtypes")
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -53,14 +56,13 @@ public class CustomArrayAdapter  extends ArrayAdapter<String> {
 
         item.setText(arrayList_data.get(position));
 
-
-        bt.setOnClickListener(new View.OnClickListener() {
+         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( context,ClientsDetails.class);
-                Toast.makeText(context, position+"", Toast.LENGTH_SHORT).show();
-                arrayList_data.get(position);
-                final DataClients dataClients = list_clients.get(position);
+                Toast.makeText(context,hashmap.get(arrayList_data.get(position))+"", Toast.LENGTH_SHORT).show();
+
+                final DataClients dataClients = list_clients.get(hashmap.get(arrayList_data.get(position)));
                 intent.putExtra("ID",dataClients.getUser_id());
                 intent.putExtra("username",ls_username);
                 intent.putExtra("clientname",dataClients.getClient_name());

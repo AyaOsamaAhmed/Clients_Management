@@ -35,7 +35,7 @@ import static android.content.ContentValues.TAG;
 
 public class AddClients extends Activity {
 
-    EditText            name ,phone , card ,cash ,buy  ;
+    EditText            name ,phone , card ,cash ,buy ,buy_details ;
     TextView            total ,date ;
     Button              button_save ;
     String              ls_id ,ls_name , ls_phone , ls_card , ls_cash ="0.0" , ls_buy="0.0" , ls_total="0.0" , ls_date,ls_Remainder ;
@@ -45,7 +45,7 @@ public class AddClients extends Activity {
     DataPaid            dataPaid    ;
     DatabaseReference   databaseclients , databasetracks;
     DatePickerDialog    datePickerDialog ;
-    private String      ls_username ,ls_clientid;
+    private String      ls_username ,ls_clientid  ,ls_buy_details;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,7 @@ public class AddClients extends Activity {
         total = (TextView)findViewById(R.id.total);
         date = (TextView) findViewById(R.id.date);
         button_save =(Button)findViewById(R.id.button_save);
+        buy_details=(EditText)findViewById(R.id.buy_details);
         //--------- Set Data
         setData();
         //------ Calc Total
@@ -134,7 +135,7 @@ public class AddClients extends Activity {
            databasetracks = FirebaseDatabase.getInstance().getReference(databasename_Tracks).child(ls_id);
             databasetracks.keepSynced(true);
            //------
-           dataPaid  = new DataPaid(Track_id ,ls_name,ls_cash,ls_buy,"First",ls_date,ls_Remainder);
+           dataPaid  = new DataPaid(Track_id ,ls_name,ls_cash,ls_buy,ls_buy_details,ls_date,ls_Remainder);
            databasetracks.child(Track_id).setValue(dataPaid);
        //------ go next page
        Intent intent = new Intent(AddClients.this,ClientsList.class);
@@ -154,6 +155,7 @@ public class AddClients extends Activity {
         if (ls_cash.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال المبلغ المدفوع الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_buy.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال مبلغ المشتريات الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_date.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال تاريخ إدخال العميل", Toast.LENGTH_SHORT).show(); return false ;}
+        if (ls_buy_details.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال تفاصيل مشتريات العميل", Toast.LENGTH_SHORT).show(); return false ;}
 
         return true ;
     }
@@ -165,6 +167,7 @@ public class AddClients extends Activity {
         ls_cash = cash.getText().toString();
         ls_buy  = buy.getText().toString();
         ls_date =date.getText().toString();
+        ls_buy_details=buy_details.getText().toString();
         //------
       /*  Date calendar = Calendar.getInstance().getTime();
         Integer day = calendar.getDate();

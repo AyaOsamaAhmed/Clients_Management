@@ -21,17 +21,19 @@ public class ListViewAdapterClientTracks extends BaseAdapter {
     // Declare Variables
 
     Activity context;
-    String          ls_username ,ls_client_id;
+    String          ls_username ,ls_client_id , phone , card;
     List<DataPaid>     list_clientTracks ;
     Integer    list_position = 0 ;
 
     public ListViewAdapterClientTracks(Activity context,
-                                       List<DataPaid>  list_clientTracks, String username , String ls_client_id ) {
+                                       List<DataPaid>  list_clientTracks, String username , String ls_client_id ,String phone , String card ) {
 
         this.context = context;
         ls_username = username;
         this.ls_client_id = ls_client_id ;
         this.list_clientTracks = list_clientTracks;
+        this.phone = phone;
+        this.card = card ;
        // resultp = list_clients.get(0);
 
     }
@@ -102,6 +104,8 @@ public class ListViewAdapterClientTracks extends BaseAdapter {
                 intent.putExtra("clientname",dataPaid.getClient_Name());
                 intent.putExtra("buy",dataPaid.getUser_buy());
                 intent.putExtra("paid",dataPaid.getUser_cash());
+                intent.putExtra("phone",phone);
+                intent.putExtra("card",card);
                 intent.putExtra("buy_details",dataPaid.getPaid_details());
                 intent.putExtra("date",dataPaid.getUser_date());
                 context.startActivity(intent);

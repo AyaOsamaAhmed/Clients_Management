@@ -130,7 +130,7 @@ public class ClientsDetails extends Activity {
                     //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
                     list_dataclients.add(client);
                 }
-                ListViewAdapterClientTracks adapter = new ListViewAdapterClientTracks(ClientsDetails.this, list_dataclients ,ls_username ,ls_id_client);
+                ListViewAdapterClientTracks adapter = new ListViewAdapterClientTracks(ClientsDetails.this, list_dataclients ,ls_username ,ls_id_client , ls_phone , ls_card);
                 list_view.setAdapter(adapter);
 
             }
