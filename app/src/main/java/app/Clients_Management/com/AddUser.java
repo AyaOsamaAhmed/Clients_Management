@@ -108,7 +108,7 @@ public class AddUser extends Activity {
 
     private Boolean validation_data() {
         if (ls_name.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال اسم العميل", Toast.LENGTH_SHORT).show(); return false ;}
-        if (ls_phone.isEmpty()){Toast.makeText(this, "من فضلك... قم بإدخال تليفون العميل", Toast.LENGTH_SHORT).show(); return false ;}
+        if (ls_phone.isEmpty() || ls_phone.length()< 11 ){Toast.makeText(this, "من فضلك... قم بإدخال تليفون العميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_username.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال اسم المستخدم للعميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_phone.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال كلمه المرور الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_date.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال تاريخ إدخال العميل", Toast.LENGTH_SHORT).show(); return false ;}

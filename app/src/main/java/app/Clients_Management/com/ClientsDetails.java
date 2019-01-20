@@ -32,12 +32,11 @@ import java.util.List;
 public class ClientsDetails extends Activity {
 
 
-    TextView    new_paid  , last_date ,cost_paid;
+    TextView    new_paid  , last_date ,cost_paid , whatsapp , client_name , client_card;
     String      ls_id ,ls_username ,ls_clientname ;
     private String ls_phone;
     private String ls_card;
 
-    ImageView       whatsapp;
     DatabaseReference databaseReference  , databaseclientremainded;
     List<DataPaid> list_dataclients ;
     private String    databasename;
@@ -54,7 +53,9 @@ public class ClientsDetails extends Activity {
         last_date = (TextView)findViewById(R.id.last_date);
         new_paid = (TextView)findViewById(R.id.new_paid);
         list_view = (ListView)findViewById(R.id.trackslist);
-        whatsapp = (ImageView)findViewById(R.id.whatsapp);
+        client_name=(TextView)findViewById(R.id.name);
+        whatsapp = (TextView) findViewById(R.id.whatsapp);
+        client_card =(TextView)findViewById(R.id.card);
         list_dataclients = new ArrayList<>();
         //--------
         ls_id_client=getIntent().getStringExtra("ID");
@@ -64,7 +65,11 @@ public class ClientsDetails extends Activity {
         ls_card = getIntent().getStringExtra("card");
         ls_last_date = getIntent().getStringExtra("Date");
         ls_remainded = getIntent().getStringExtra("remainded");
-        Toast.makeText(this, ls_phone, Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, ls_phone, Toast.LENGTH_SHORT).show();
+        //-------------
+        client_name.setText(ls_clientname);
+        whatsapp.setText(ls_phone);
+        client_card.setText(ls_card);
         //-------Database name
         databasename = "Tracks_" + ls_username;
        // Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();

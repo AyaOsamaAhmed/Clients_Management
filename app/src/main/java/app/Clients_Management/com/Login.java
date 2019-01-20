@@ -30,7 +30,7 @@ public class Login extends Activity {
 
     EditText username,password;
     String      ls_username , ls_password ;
-    Button   login ;
+    Button   login , button_test;
     private boolean check;
 
 
@@ -46,6 +46,7 @@ public class Login extends Activity {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         login = (Button) findViewById(R.id.button_login);
+        button_test = (Button)findViewById(R.id.button_test);
         list_datausers = new ArrayList<>();
         //-----
         databasename = "Users";                                                      // name clients
@@ -72,6 +73,16 @@ public class Login extends Activity {
                         intent.putExtra("username", ls_username);
                         startActivity(intent);
                 }
+            }
+        });
+    //-------------------
+        button_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClientsList.class);
+                intent.putExtra("username", "test");
+                intent.putExtra("possible","1");
+                startActivity(intent);
             }
         });
     }

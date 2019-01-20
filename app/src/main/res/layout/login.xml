@@ -62,10 +62,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_layout"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:id="@+id/button_login"
             android:background="@mipmap/button"
             android:text="الدخول"
+            android:textSize="24dp"
+            android:layout_gravity="center"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_layout"
+            android:id="@+id/button_test"
+            android:background="@mipmap/button"
+            android:text="جرب بنفسك"
             android:textSize="24dp"
             android:layout_gravity="center"
             />

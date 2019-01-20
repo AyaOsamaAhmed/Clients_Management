@@ -60,7 +60,7 @@ public class CustomArrayAdapter  extends ArrayAdapter<String> {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( context,ClientsDetails.class);
-                Toast.makeText(context,hashmap.get(arrayList_data.get(position))+"", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context,hashmap.get(arrayList_data.get(position))+"", Toast.LENGTH_SHORT).show();
 
                 final DataClients dataClients = list_clients.get(hashmap.get(arrayList_data.get(position)));
                 intent.putExtra("ID",dataClients.getUser_id());

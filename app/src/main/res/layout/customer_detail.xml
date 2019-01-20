@@ -17,13 +17,42 @@
         android:id="@+id/home"
         android:layout_weight="0.1"
         >
-        <ImageView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/fullcard"
+            android:orientation="vertical"
+            android:id="@+id/portfile"
+            android:background="@mipmap/fullcard"
             android:layout_marginTop="5dp"
-            android:id="@+id/whatsapp"
-            />
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="140dp"
+                android:background="@mipmap/proooname"
+                android:text="اسم العضو "
+                android:gravity="center"
+                android:id="@+id/name"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@mipmap/prowhatsapp"
+                android:id="@+id/whatsapp"
+                android:text="رقم التليفون"
+                android:gravity="center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@mipmap/profilecard"
+                android:text="رقم العضويه"
+                android:gravity="center"
+                android:id="@+id/card"
+                />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
