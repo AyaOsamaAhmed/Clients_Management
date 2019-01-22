@@ -7,7 +7,9 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -117,6 +119,19 @@ public class AddClients extends Activity {
         });
         //-------- Set Data
         CalcTotal();
+        //--------------
+        if (ls_username.equals("test")) {
+            String retest;
+            SharedPreferences sh = getSharedPreferences("test", MODE_PRIVATE);
+
+            SharedPreferences.Editor edit = sh.edit();
+            retest = sh.getString("client", "");
+            if (retest.equals("1")) {
+                alartTest("انت بالفعل قمت بادخال العميل المتاح لك n/ فى انتظار مكالمه حضرتك للاشتراك");
+            } else {
+
+            }
+        }
         //--------- Button Save
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,18 +149,87 @@ public class AddClients extends Activity {
 
            databasetracks = FirebaseDatabase.getInstance().getReference(databasename_Tracks).child(ls_id);
             databasetracks.keepSynced(true);
-           //------
-           dataPaid  = new DataPaid(Track_id ,ls_name,ls_cash,ls_buy,ls_buy_details,ls_date,ls_Remainder);
-           databasetracks.child(Track_id).setValue(dataPaid);
+
+           //----- For Test user
+           if (ls_username.equals("test")) {
+               String  retest ;
+               SharedPreferences sh = getSharedPreferences("test", MODE_PRIVATE);
+
+               SharedPreferences.Editor edit = sh.edit();
+            retest=   sh.getString("client","");
+               if(retest.equals("1")) {
+                 alartTest("انت بالفعل قمت بادخال العميل المتاح لك \n فى انتظار مكالمه حضرتك للاشتراك");
+               }else{
+                   //------
+                   dataPaid  = new DataPaid(Track_id ,ls_name,ls_cash,ls_buy,ls_buy_details,ls_date,ls_Remainder);
+                   databasetracks.child(Track_id).setValue(dataPaid);
+                   edit.putString("client", "1");
+                   edit.apply();
+
        //------ go next page
        Intent intent = new Intent(AddClients.this,ClientsList.class);
        intent.putExtra("username", ls_username);
        startActivity(intent);
             }
+           }
+       }
             }
         });
         //---------
 
+    }
+
+    private void alartTest(String message) {
+
+        AlertDialog.Builder al = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Black));
+            al.setMessage(message);
+        al.setCancelable(false).setPositiveButton("الاتصال على رقمى", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:01001059357"));
+                    startActivity(intent);
+
+                }
+            }).setCancelable(false)
+        .setPositiveButton("محادثه عن طريق الواتس أب", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=+2001001059357"));
+                    startActivity(intent);
+
+
+                }
+            });
+        al.setNegativeButton("الرجوع", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(AddClients.this ,ClientsList.class);
+                    intent.putExtra("username", ls_username);
+                    startActivity(intent);
+                    dialog.cancel();
+                }
+            });
+            al.show();
+
+    }
+
+    public void alart(String message ) {
+        AlertDialog al = new AlertDialog.Builder(this).create();
+        al.setMessage(message);
+        al.setButton("الاتصال على رقمى", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        al.setButton2("MOBILEDATA", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                AddClients.this.startActivity(new Intent("android.settings.DATA_ROAMING_SETTINGS"));
+            }
+        });
+        al.setButton3("WIFI", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                AddClients.this.startActivity(new Intent("android.settings.WIFI_SETTINGS"));
+            }
+        });
+        al.show();
     }
 
     private Boolean validation_data() {
