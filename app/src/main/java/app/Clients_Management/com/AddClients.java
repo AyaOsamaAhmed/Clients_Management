@@ -121,16 +121,7 @@ public class AddClients extends Activity {
         CalcTotal();
         //--------------
         if (ls_username.equals("test")) {
-            String retest;
-            SharedPreferences sh = getSharedPreferences("test", MODE_PRIVATE);
-
-            SharedPreferences.Editor edit = sh.edit();
-            retest = sh.getString("client", "");
-            if (retest.equals("1")) {
-                alartTest("انت بالفعل قمت بادخال العميل المتاح لك n/ فى انتظار مكالمه حضرتك للاشتراك");
-            } else {
-
-            }
+                alartTest("انت بالفعل قمت بادخال العميل المتاح لك  \n و فى انتظار مكالمه حضرتك للاشتراك");
         }
         //--------- Button Save
         button_save.setOnClickListener(new View.OnClickListener() {
@@ -149,30 +140,20 @@ public class AddClients extends Activity {
 
            databasetracks = FirebaseDatabase.getInstance().getReference(databasename_Tracks).child(ls_id);
             databasetracks.keepSynced(true);
+           dataPaid  = new DataPaid(Track_id ,ls_name,ls_cash,ls_buy,ls_buy_details,ls_date,ls_Remainder);
+           databasetracks.child(Track_id).setValue(dataPaid);
 
            //----- For Test user
            if (ls_username.equals("test")) {
-               String  retest ;
-               SharedPreferences sh = getSharedPreferences("test", MODE_PRIVATE);
-
-               SharedPreferences.Editor edit = sh.edit();
-            retest=   sh.getString("client","");
-               if(retest.equals("1")) {
-                 alartTest("انت بالفعل قمت بادخال العميل المتاح لك \n فى انتظار مكالمه حضرتك للاشتراك");
-               }else{
-                   //------
-                   dataPaid  = new DataPaid(Track_id ,ls_name,ls_cash,ls_buy,ls_buy_details,ls_date,ls_Remainder);
-                   databasetracks.child(Track_id).setValue(dataPaid);
-                   edit.putString("client", "1");
-                   edit.apply();
+               alartTest("انت بالفعل قمت بادخال العميل المتاح لك  \n و فى انتظار مكالمه حضرتك للاشتراك");
+           }
 
        //------ go next page
        Intent intent = new Intent(AddClients.this,ClientsList.class);
        intent.putExtra("username", ls_username);
        startActivity(intent);
             }
-           }
-       }
+
             }
         });
         //---------
@@ -181,7 +162,7 @@ public class AddClients extends Activity {
 
     private void alartTest(String message) {
 
-        AlertDialog.Builder al = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Black));
+        AlertDialog.Builder al = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Material_Wallpaper));
             al.setMessage(message);
         al.setCancelable(false).setPositiveButton("الاتصال على رقمى", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {

@@ -81,6 +81,7 @@ public class Login extends Activity {
             @Override
             public void onClick(View view) {
 
+                // https://www.youtube.com/watch?v=5ETJWUuH1Ag
                 Intent intent = new Intent(getApplicationContext(), ClientsList.class);
                 intent.putExtra("username", "test");
 
