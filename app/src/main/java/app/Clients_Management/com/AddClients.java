@@ -22,12 +22,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -46,17 +51,17 @@ public class AddClients extends Activity {
     DataClients         dataClients;
     DataPaid            dataPaid    ;
     DatabaseReference   databaseclients , databasetracks;
+    DatabaseReference   databaseReference;
     DatePickerDialog    datePickerDialog ;
-    private String      ls_username ,ls_clientid  ,ls_buy_details;
-
+      String      ls_username ,ls_phone_test  ,ls_buy_details;
+    int                     client_test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addclients);
         //-------Database Firebase
         ls_username=getIntent().getStringExtra("username");
-        ls_clientid=getIntent().getStringExtra("clientid");
-
+        ls_phone_test   =getIntent().getStringExtra("phone");
         databasename = "Clients_" + ls_username;
        // Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
         // name clients
@@ -74,6 +79,16 @@ public class AddClients extends Activity {
         buy_details=(EditText)findViewById(R.id.buy_details);
         //--------- Set Data
         setData();
+        //----------- Test Client
+        Toast.makeText(this, ls_username, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, ls_phone_test, Toast.LENGTH_SHORT).show();
+
+        if (ls_username.equals("test")) {
+            phone.setText(ls_phone_test);
+            phone.setEnabled(false);
+        }
+
+
         //------ Calc Total
         buy.addTextChangedListener(new TextWatcher() {
             @Override
@@ -119,10 +134,6 @@ public class AddClients extends Activity {
         });
         //-------- Set Data
         CalcTotal();
-        //--------------
-        if (ls_username.equals("test")) {
-                alartTest("انت بالفعل قمت بادخال العميل المتاح لك  \n و فى انتظار مكالمه حضرتك للاشتراك");
-        }
         //--------- Button Save
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,11 +154,6 @@ public class AddClients extends Activity {
            dataPaid  = new DataPaid(Track_id ,ls_name,ls_cash,ls_buy,ls_buy_details,ls_date,ls_Remainder);
            databasetracks.child(Track_id).setValue(dataPaid);
 
-           //----- For Test user
-           if (ls_username.equals("test")) {
-               alartTest("انت بالفعل قمت بادخال العميل المتاح لك  \n و فى انتظار مكالمه حضرتك للاشتراك");
-           }
-
        //------ go next page
        Intent intent = new Intent(AddClients.this,ClientsList.class);
        intent.putExtra("username", ls_username);
@@ -160,6 +166,42 @@ public class AddClients extends Activity {
 
     }
 
+    @Override
+    protected void onStart() {
+     String   databasename = "Clients_" + ls_username;
+        // Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
+        //-------Database Firebase intent.putExtra("username", ls_username);
+        databaseReference = FirebaseDatabase.getInstance().getReference(databasename);
+        databaseReference.keepSynced(true);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot dataclients : dataSnapshot.getChildren()){
+                    DataClients client  = dataclients.getValue(DataClients.class);
+                    //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
+                    if (ls_phone_test.equals(client.getUser_phone())) {
+                        client_test++;
+                    }
+                }
+                if (client_test>= 1 ) {
+                    alartTest("انت بالفعل قمت بادخال العميل المتاح لك  \n و فى انتظار مكالمه حضرتك للاشتراك");
+                    button_save.setEnabled(false);
+                }
+
+                }
+                //   ListViewAdapterClients adapter = new ListViewAdapterClients(ClientsList.this, list_dataclients ,ls_username );
+                // list_view.setAdapter(adapter);
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        super.onStart();
+    }
     private void alartTest(String message) {
 
         AlertDialog.Builder al = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Material_Wallpaper));

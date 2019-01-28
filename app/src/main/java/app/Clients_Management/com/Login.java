@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,12 +34,12 @@ public class Login extends Activity {
     String      ls_username , ls_password ;
     Button   login , button_test;
     private boolean check;
-
+    EditText  phone ;
+    String    st_phone ;
 
     DatabaseReference databaseReference;
     List<DataUsers> list_datausers;
     private String databasename;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,14 +82,40 @@ public class Login extends Activity {
             @Override
             public void onClick(View view) {
 
+                AlertDialog.Builder  builder = new AlertDialog.Builder(Login.this);
+
+                 View listViewClient = getLayoutInflater().inflate(R.layout.layout_phone,null);
+                phone = (EditText) listViewClient.findViewById(R.id.phone);
+                builder.setNegativeButton("شكرا", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        st_phone = phone.getText().toString();
+
+                        if (! st_phone.isEmpty() && st_phone.length() >= 11){
+
+                            Intent intent = new Intent(getApplicationContext(), ClientsList.class);
+                            intent.putExtra("username", "test");
+                            intent.putExtra("phone", st_phone);
+                            startActivity(intent);
+
+                        }else {
+                            Toast.makeText(getApplicationContext(), "من فضلك,إدخل رقم الهاتف الخاص بك حتى يتم التواصل معك لاحقا", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                });
+                builder.setView(listViewClient);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
                 // https://www.youtube.com/watch?v=5ETJWUuH1Ag
-                Intent intent = new Intent(getApplicationContext(), ClientsList.class);
+                /*Intent intent = new Intent(getApplicationContext(), ClientsList.class);
                 intent.putExtra("username", "test");
 
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
     }
+
 
     public void alart(String message) {
         AlertDialog al = new AlertDialog.Builder(this).create();

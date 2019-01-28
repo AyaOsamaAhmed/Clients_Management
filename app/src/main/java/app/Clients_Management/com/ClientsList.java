@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,13 +37,13 @@ public class ClientsList extends Activity {
     EditText        search_text ;
     ListView        list_view;
     Button          search_button,add_button;
-    String          ls_search_text ,ls_username ,databasename ;
+    String          ls_search_text ,ls_username ,databasename ,ls_phone ;
 
     HashMap<String,Integer> hashMap_position ;
     DatabaseReference   databaseReference;
     List<DataClients> list_dataclients  ;
     ArrayList  <String>   arrayList_data   ;
-
+    int                     client_test ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,7 @@ public class ClientsList extends Activity {
         hashMap_position = new HashMap<String, Integer>();
         //-------Database name
         ls_username=getIntent().getStringExtra("username");
+        ls_phone = getIntent().getStringExtra("phone");
         databasename = "Clients_" + ls_username;
        // Toast.makeText(this, databasename, Toast.LENGTH_SHORT).show();
         //-------Database Firebase intent.putExtra("username", ls_username);
@@ -65,7 +67,24 @@ public class ClientsList extends Activity {
         //------------
         list_view.setTextFilterEnabled(true);
         list_view.setAdapter(new ListViewAdapterClients(ClientsList.this,list_dataclients ,ls_username ));
+        //-----------------Test
+        if (ls_username.equals("test")){
 
+            AlertDialog.Builder  builder = new AlertDialog.Builder(ClientsList.this);
+
+            View listViewClient = getLayoutInflater().inflate(R.layout.layout_contact,null);
+
+             builder.setNegativeButton("شكرا", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+
+            });
+            builder.setView(listViewClient);
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
         //--------
         search_text.addTextChangedListener(new TextWatcher() {
             @Override
@@ -125,20 +144,22 @@ public class ClientsList extends Activity {
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),AddClients.class);
-                intent.putExtra("username", ls_username);
-                startActivity(intent);
+                if (client_test>= 1 ) {
+                    alartTest("انت بالفعل قمت بادخال العميل المتاح لك  \n و فى انتظار مكالمه حضرتك للاشتراك");
+
+                }else {
+
+
+                    Intent intent = new Intent(getApplicationContext(), AddClients.class);
+                    intent.putExtra("username", ls_username);
+                    intent.putExtra("phone", ls_phone);
+                    startActivity(intent);
+                }
             }
         });
 
-        changeNameApp();
 
     }
-
-    private void changeNameApp() {
-
-    }
-
 
     @Override
     protected void onStart() {
@@ -155,7 +176,12 @@ public class ClientsList extends Activity {
                     arrayList_data.add(client.getClient_name());
                     hashMap_position.put(client.getClient_name(),i);
                     i++;
+                    if (ls_phone.equals(client.getUser_phone())) {
+                        client_test++;
+                    }
                 }
+
+
              //   ListViewAdapterClients adapter = new ListViewAdapterClients(ClientsList.this, list_dataclients ,ls_username );
                // list_view.setAdapter(adapter);
 
@@ -168,6 +194,51 @@ public class ClientsList extends Activity {
         });
 
         super.onStart();
+    }
+    private void alartTest(String message) {
+
+        AlertDialog.Builder  builder = new AlertDialog.Builder(ClientsList.this);
+
+        View listViewClient = getLayoutInflater().inflate(R.layout.layout_contact,null);
+
+        builder.setNegativeButton("شكرا", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+
+        });
+        builder.setView(listViewClient);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        /*
+        AlertDialog.Builder al = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Material_Wallpaper));
+        al.setMessage(message);
+        al.setCancelable(false).setPositiveButton("الاتصال على رقمى", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:01001059357"));
+                startActivity(intent);
+
+            }
+        }).setCancelable(false)
+                .setPositiveButton("محادثه عن طريق الواتس أب", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=+2001001059357"));
+                        startActivity(intent);
+
+
+                    }
+                });
+        al.setNegativeButton("إالغاء", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                dialog.cancel();
+            }
+        });
+        al.show();
+*/
     }
 
     @Override

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Clients</string>
-    <string name="app">فطومه</string>
-
+    <string name="ask">أولا قم بإدخال رقم التليفون:</string>
+    <string name="alart">أرجو التنبيه, يتيح البرنامج لك إضافه عميل واحد و يمكن القيام بالدفع للعميل مره واحده,اختبار البرنامج مجانا و يمكن شراء اكونت خاص بيك ارجو التواصل \n  +2001001059357</string>
 
 
 </resources>
