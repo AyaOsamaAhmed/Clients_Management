@@ -37,7 +37,9 @@
             android:id="@+id/search_text"
             android:hint="إدخل اسم العميل"
             android:textSize="22dp"
+            android:maxLength="20"
             android:maxLines="1"
+            android:singleLine="true"
             />
     </LinearLayout>
 

@@ -80,12 +80,12 @@ public class AddClients extends Activity {
         //--------- Set Data
         setData();
         //----------- Test Client
-        Toast.makeText(this, ls_username, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, ls_phone_test, Toast.LENGTH_SHORT).show();
 
         if (ls_username.equals("test")) {
             phone.setText(ls_phone_test);
             phone.setEnabled(false);
+            buy_details.setText("تحت الاختبار");
+            buy_details.setEnabled(false);
         }
 
 
@@ -157,6 +157,7 @@ public class AddClients extends Activity {
        //------ go next page
        Intent intent = new Intent(AddClients.this,ClientsList.class);
        intent.putExtra("username", ls_username);
+           intent.putExtra("phone", ls_phone);
        startActivity(intent);
             }
 
@@ -180,14 +181,9 @@ public class AddClients extends Activity {
                 for(DataSnapshot dataclients : dataSnapshot.getChildren()){
                     DataClients client  = dataclients.getValue(DataClients.class);
                     //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
-                    if (ls_phone_test.equals(client.getUser_phone())) {
-                        client_test++;
-                    }
+
                 }
-                if (client_test>= 1 ) {
-                    alartTest("انت بالفعل قمت بادخال العميل المتاح لك  \n و فى انتظار مكالمه حضرتك للاشتراك");
-                    button_save.setEnabled(false);
-                }
+
 
                 }
                 //   ListViewAdapterClients adapter = new ListViewAdapterClients(ClientsList.this, list_dataclients ,ls_username );
@@ -258,7 +254,7 @@ public class AddClients extends Activity {
     private Boolean validation_data() {
         if (ls_name.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال اسم العميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_phone.isEmpty() || ls_phone.length() < 11){Toast.makeText(this, "من فضلك... قم بإدخال تليفون العميل", Toast.LENGTH_SHORT).show(); return false ;}
-        if (ls_card.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال رقم عضويه العميل", Toast.LENGTH_SHORT).show(); return false ;}
+      //  if (ls_card.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال رقم عضويه العميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_cash.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال المبلغ المدفوع الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_buy.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال مبلغ المشتريات الخاص بالعميل", Toast.LENGTH_SHORT).show(); return false ;}
         if (ls_date.isEmpty()) {Toast.makeText(this, "من فضلك... قم بإدخال تاريخ إدخال العميل", Toast.LENGTH_SHORT).show(); return false ;}

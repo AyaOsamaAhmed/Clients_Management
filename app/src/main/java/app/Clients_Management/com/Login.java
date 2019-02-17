@@ -86,7 +86,7 @@ public class Login extends Activity {
 
                  View listViewClient = getLayoutInflater().inflate(R.layout.layout_phone,null);
                 phone = (EditText) listViewClient.findViewById(R.id.phone);
-                builder.setNegativeButton("شكرا", new DialogInterface.OnClickListener(){
+                builder.setNegativeButton("O.K", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         st_phone = phone.getText().toString();
@@ -97,7 +97,7 @@ public class Login extends Activity {
 
                             View listViewClient = getLayoutInflater().inflate(R.layout.layout_contact,null);
 
-                            builder.setNegativeButton("شكرا", new DialogInterface.OnClickListener(){
+                            builder.setNegativeButton("O.K", new DialogInterface.OnClickListener(){
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -228,7 +228,7 @@ public class Login extends Activity {
     public void onBackPressed() {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("هل انت متاكد انك تريد الخروج من ").setCancelable(false).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+            builder.setMessage("هل انت متاكد انك تريد الخروج").setCancelable(false).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.addCategory(Intent.CATEGORY_HOME);

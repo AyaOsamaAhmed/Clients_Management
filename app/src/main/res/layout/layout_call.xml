@@ -31,7 +31,7 @@
         android:textSize="14sp"
         android:text="محادثه عن طريق الواتس أب"
         android:background="@mipmap/button"
-        android:id="@+id/whatsapp"
+        android:id="@+id/whats"
         />
     <Button
         android:layout_width="match_parent"

@@ -184,7 +184,7 @@ public class ClientsList extends Activity {
         final View listViewClient = getLayoutInflater().inflate(R.layout.layout_call,null);
         //-----------
         button_call = (Button) listViewClient.findViewById(R.id.number);
-        button_whats = (Button) listViewClient.findViewById(R.id.whatsapp);
+        button_whats = (Button) listViewClient.findViewById(R.id.whats);
         button_cancle= (Button) listViewClient.findViewById(R.id.cancle);
 
         //-------------------
