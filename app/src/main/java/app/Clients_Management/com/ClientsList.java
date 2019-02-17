@@ -67,25 +67,7 @@ public class ClientsList extends Activity {
         //------------
         list_view.setTextFilterEnabled(true);
         list_view.setAdapter(new ListViewAdapterClients(ClientsList.this,list_dataclients ,ls_username ));
-        //-----------------Test
-        if (ls_username.equals("test")){
 
-            AlertDialog.Builder  builder = new AlertDialog.Builder(ClientsList.this);
-
-            View listViewClient = getLayoutInflater().inflate(R.layout.layout_contact,null);
-
-             builder.setNegativeButton("شكرا", new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-
-                }
-
-            });
-            builder.setView(listViewClient);
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-        }
-        //--------
         search_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -145,11 +127,9 @@ public class ClientsList extends Activity {
             @Override
             public void onClick(View view) {
                 if (client_test>= 1 ) {
-                    alartTest("انت بالفعل قمت بادخال العميل المتاح لك  \n و فى انتظار مكالمه حضرتك للاشتراك");
+                    alartTest();
 
                 }else {
-
-
                     Intent intent = new Intent(getApplicationContext(), AddClients.class);
                     intent.putExtra("username", ls_username);
                     intent.putExtra("phone", ls_phone);
@@ -176,8 +156,10 @@ public class ClientsList extends Activity {
                     arrayList_data.add(client.getClient_name());
                     hashMap_position.put(client.getClient_name(),i);
                     i++;
-                    if (ls_phone.equals(client.getUser_phone())) {
-                        client_test++;
+                    if ( ls_username.equals("test")) {
+                        if (ls_phone.equals(client.getUser_phone())) {
+                            client_test++;
+                        }
                     }
                 }
 
@@ -195,21 +177,47 @@ public class ClientsList extends Activity {
 
         super.onStart();
     }
-    private void alartTest(String message) {
+    private void alartTest( ) {
+        final Button      button_call , button_whats , button_cancle;
+        final AlertDialog.Builder  builder = new AlertDialog.Builder(ClientsList.this);
 
-        AlertDialog.Builder  builder = new AlertDialog.Builder(ClientsList.this);
+        final View listViewClient = getLayoutInflater().inflate(R.layout.layout_call,null);
+        //-----------
+        button_call = (Button) listViewClient.findViewById(R.id.number);
+        button_whats = (Button) listViewClient.findViewById(R.id.whatsapp);
+        button_cancle= (Button) listViewClient.findViewById(R.id.cancle);
 
-        View listViewClient = getLayoutInflater().inflate(R.layout.layout_contact,null);
+        //-------------------
+        builder.setView(listViewClient);
+        final AlertDialog alertDialog = builder.create();
 
-        builder.setNegativeButton("شكرا", new DialogInterface.OnClickListener(){
+        //------------------
+        button_call.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:01001059357"));
+                startActivity(intent);
+            }
+        });
+
+        button_whats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=+2001001059357"));
+                startActivity(intent);
 
             }
-
         });
-        builder.setView(listViewClient);
-        AlertDialog alertDialog = builder.create();
+
+        button_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.cancel();
+            }
+        });
+       //--------------
         alertDialog.show();
         /*
         AlertDialog.Builder al = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Material_Wallpaper));

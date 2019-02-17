@@ -11,6 +11,7 @@ import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ public class ClientsDetails extends Activity {
     private String    ls_id_client ,ls_last_date;
     ListView          list_view;
     private String ls_remainded;
-
+    int             client_paid ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,16 +78,27 @@ public class ClientsDetails extends Activity {
         databaseReference = FirebaseDatabase.getInstance().getReference(databasename).child(ls_id_client);
         databaseReference.keepSynced(true);
         //--------
+        if (ls_username.equals("test")) {
+            if (client_paid >= 2){
+
+                alartTest();
+            }
+        }
+        //---------
         new_paid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),ClientsPaid.class);
-                intent.putExtra("username", ls_username);
-                intent.putExtra("clientname", ls_clientname);
-                intent.putExtra("phone", ls_phone);
-                intent.putExtra("card", ls_card);
-                intent.putExtra("clientid", ls_id_client);
-                startActivity(intent);
+                if (client_paid >= 2 &&ls_username.equals("test") ){
+                    alartTest();}
+                else {
+                    Intent intent = new Intent(getApplicationContext(), ClientsPaid.class);
+                    intent.putExtra("username", ls_username);
+                    intent.putExtra("clientname", ls_clientname);
+                    intent.putExtra("phone", ls_phone);
+                    intent.putExtra("card", ls_card);
+                    intent.putExtra("clientid", ls_id_client);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -103,6 +115,77 @@ public class ClientsDetails extends Activity {
         });
     }
 
+    private void alartTest( ) {
+        final Button button_call , button_whats , button_cancle;
+        final AlertDialog.Builder  builder = new AlertDialog.Builder(ClientsDetails.this);
+
+        final View listViewClient = getLayoutInflater().inflate(R.layout.layout_call,null);
+        //-----------
+        button_call = (Button) listViewClient.findViewById(R.id.number);
+        button_whats = (Button) listViewClient.findViewById(R.id.whatsapp);
+        button_cancle= (Button) listViewClient.findViewById(R.id.cancle);
+
+        //-------------------
+        builder.setView(listViewClient);
+        final AlertDialog alertDialog = builder.create();
+
+        //------------------
+        button_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:01001059357"));
+                startActivity(intent);
+            }
+        });
+
+        button_whats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=+2001001059357"));
+                startActivity(intent);
+
+            }
+        });
+
+        button_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.cancel();
+            }
+        });
+        //--------------
+        alertDialog.show();
+        /*
+        AlertDialog.Builder al = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Material_Wallpaper));
+        al.setMessage(message);
+        al.setCancelable(false).setPositiveButton("الاتصال على رقمى", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:01001059357"));
+                startActivity(intent);
+
+            }
+        }).setCancelable(false)
+                .setPositiveButton("محادثه عن طريق الواتس أب", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=+2001001059357"));
+                        startActivity(intent);
+
+
+                    }
+                });
+        al.setNegativeButton("إالغاء", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                dialog.cancel();
+            }
+        });
+        al.show();
+*/
+    }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -134,6 +217,7 @@ public class ClientsDetails extends Activity {
                     DataPaid client  = datapaid.getValue(DataPaid.class);
                     //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
                     list_dataclients.add(client);
+                    client_paid++;
                 }
                 ListViewAdapterClientTracks adapter = new ListViewAdapterClientTracks(ClientsDetails.this, list_dataclients ,ls_username ,ls_id_client , ls_phone , ls_card);
                 list_view.setAdapter(adapter);

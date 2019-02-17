@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="انت بالفعل قمت بادخال العميل المتاح لك
- و فى انتظار مكالمه حضرتك للاشتراك          "
+و فى انتظار مكالمه حضرتك للاشتراك          "
         android:textSize="25sp"
         android:textColor="@color/text"
         android:layout_margin="10dp"
@@ -23,19 +23,22 @@
         android:text="الاتصال على رقمى"
         android:background="@mipmap/button"
         android:gravity="center"
+        android:id="@+id/number"
         />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:text="الاتصال على رقمى"
+        android:text="محادثه عن طريق الواتس أب"
         android:background="@mipmap/button"
+        android:id="@+id/whatsapp"
         />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:text="الاتصال على رقمى"
+        android:text="الرجوع"
         android:background="@mipmap/button"
+        android:id="@+id/cancle"
         />
 </LinearLayout>

@@ -92,11 +92,27 @@ public class Login extends Activity {
                         st_phone = phone.getText().toString();
 
                         if (! st_phone.isEmpty() && st_phone.length() >= 11){
+                            //---------
+                            AlertDialog.Builder  builder = new AlertDialog.Builder(Login.this);
 
-                            Intent intent = new Intent(getApplicationContext(), ClientsList.class);
-                            intent.putExtra("username", "test");
-                            intent.putExtra("phone", st_phone);
-                            startActivity(intent);
+                            View listViewClient = getLayoutInflater().inflate(R.layout.layout_contact,null);
+
+                            builder.setNegativeButton("شكرا", new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    Intent intent = new Intent(getApplicationContext(), ClientsList.class);
+                                    intent.putExtra("username", "test");
+                                    intent.putExtra("phone", st_phone);
+                                    startActivity(intent);
+                                }
+
+                            });
+                            builder.setView(listViewClient);
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                            //---------
+
 
                         }else {
                             Toast.makeText(getApplicationContext(), "من فضلك,إدخل رقم الهاتف الخاص بك حتى يتم التواصل معك لاحقا", Toast.LENGTH_SHORT).show();
