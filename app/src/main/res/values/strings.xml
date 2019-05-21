@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Clients</string>
-    <string name="ask">أولا قم بإدخال رقم التليفون:</string>
+    <string name="ask">مقدمة</string>
+    <string name="Privacy">سياسة الخصوصية</string>
+    <string name="add_client">إضافة عميل</string>
     <string name="alart">أرجو التنبيه, يسمح البرنامج لك بإضافه عميل واحد و يمكن القيام بعمليه دفع للعميل مره واحده\n ,اختبار البرنامج مجانا و يمكن شراء اكونت خاص بيك ارجو التواصل \n  +2001001059357</string>
 
 

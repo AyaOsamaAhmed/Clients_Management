@@ -6,4 +6,6 @@
     <dimen name="marginRight_size">20dp</dimen>
     <dimen name="marginleft_size">10dp</dimen>
     <dimen name="size_text">24sp</dimen>
+    <dimen name="tabs">18sp</dimen>
+    <dimen name="text">16sp</dimen>
 </resources>

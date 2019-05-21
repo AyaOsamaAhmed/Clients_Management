@@ -1,34 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_gravity="center_horizontal"
+
+    >
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            >
+            <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/back"
+    android:orientation="vertical"
+    android:layout_marginTop="15dp"
+    android:id="@+id/one"
     >
+    <TextView
+        android:id="@+id/start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/ask"
+        android:textSize="@dimen/tabs"
+        android:textColor="@color/white"
+        android:background="@color/tabs"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:onClick="tabStart"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/ask"
-        android:textSize="25sp"
-        android:textColor="@color/text"
-        android:layout_marginTop="10dp"
-        />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:hint="+2001001059357"
-        android:background="@mipmap/user"
-        android:textSize="20sp"
-        android:textColor="@color/text"
-        android:layout_margin="10dp"
-        android:inputType="number"
-        android:id="@+id/phone"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="5dp"
+        android:text="@string/alart"
+        android:id="@+id/tab_start"
 
         />
+</LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_below="@+id/one"
+                android:id="@+id/two"
+                >
+                <TextView
+                    android:id="@+id/Privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/Privacy"
+                    android:textSize="@dimen/tabs"
+                    android:textColor="@color/white"
+                    android:background="@color/tabs"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:onClick="tabPrivacy"
+                    />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_margin="10dp"
+                    android:text="@string/alart"
+                    android:id="@+id/tab_Privacy"
+
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_below="@+id/two"
+                android:id="@+id/three"
+                >
+                <TextView
+                    android:id="@+id/add_client"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/add_client"
+                    android:textSize="@dimen/tabs"
+                    android:textColor="@color/white"
+                    android:background="@color/tabs"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:onClick="tabStart"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_margin="10dp"
+                    android:text="@string/alart"
+                    android:id="@+id/tab_add_client"
+
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
 </LinearLayout>

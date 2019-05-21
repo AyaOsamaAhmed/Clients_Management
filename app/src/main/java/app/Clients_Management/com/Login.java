@@ -12,6 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -30,16 +34,18 @@ import java.util.List;
 
 public class Login extends Activity {
 
-    EditText username,password;
-    String      ls_username , ls_password ;
-    Button   login , button_test;
-    private boolean check;
-    EditText  phone ;
-    String    st_phone ;
+    EditText username, password;
+    String ls_username, ls_password;
+    Button login ;
+    private boolean check ;
+    TextView start, tab_start , tab_Privacy ,Privacy , add_client , tab_add_client;
+    String st_phone;
 
     DatabaseReference databaseReference;
     List<DataUsers> list_datausers;
     private String databasename;
+    private int height_start , height_Privacy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +54,7 @@ public class Login extends Activity {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         login = (Button) findViewById(R.id.button_login);
-        button_test = (Button)findViewById(R.id.button_test);
+
         list_datausers = new ArrayList<>();
         //-----
         databasename = "Users";                                                      // name clients
@@ -59,77 +65,57 @@ public class Login extends Activity {
             @Override
             public void onClick(View view) {
                 setData();
-              //  Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
                 if (ls_username.isEmpty()) {
                     Toast.makeText(Login.this, "من فضلك قم بإدخال اسم المستخدم الخاص بك", Toast.LENGTH_SHORT).show();
-                }else if (ls_password.isEmpty()) {
+                } else if (ls_password.isEmpty()) {
                     Toast.makeText(Login.this, "من فضلك قم بإدخال كلمه المرور الخاص بك", Toast.LENGTH_SHORT).show();
-                }else if (ls_username.equals("SecretLogin")) {
-                            Intent intent = new Intent(Login.this,AddUser.class);
-                            startActivity(intent);
+                } else if (ls_username.equals("SecretLogin")) {
+                    Intent intent = new Intent(Login.this, AddUser.class);
+                    startActivity(intent);
 
-                }
-                 else if (checkUsers(ls_username , ls_password)) {
-                //        Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), ClientsList.class);
-                        intent.putExtra("username", ls_username);
-                        startActivity(intent);
+                } else if (checkUsers(ls_username, ls_password)) {
+                    //        Toast.makeText(Login.this,ls_username, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), ClientsList.class);
+                    intent.putExtra("username", ls_username);
+                    startActivity(intent);
                 }
             }
         });
-    //-------------------
-        button_test.setOnClickListener(new View.OnClickListener() {
+        //-------------------
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+
+        View listViewClient = getLayoutInflater().inflate(R.layout.layout_phone, null);
+        start = (TextView) listViewClient.findViewById(R.id.start);
+        tab_start = (TextView) listViewClient.findViewById(R.id.tab_start);
+
+        Privacy = (TextView) listViewClient.findViewById(R.id.Privacy);
+        tab_Privacy = (TextView) listViewClient.findViewById(R.id.tab_Privacy);
+
+        add_client = (TextView) listViewClient.findViewById(R.id.add_client);
+        tab_add_client = (TextView) listViewClient.findViewById(R.id.tab_add_client);
+
+        builder.setNegativeButton("O.K", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                AlertDialog.Builder  builder = new AlertDialog.Builder(Login.this);
-
-                 View listViewClient = getLayoutInflater().inflate(R.layout.layout_phone,null);
-                phone = (EditText) listViewClient.findViewById(R.id.phone);
-                builder.setNegativeButton("O.K", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        st_phone = phone.getText().toString();
-
-                        if (! st_phone.isEmpty() && st_phone.length() >= 11){
-                            //---------
-                            AlertDialog.Builder  builder = new AlertDialog.Builder(Login.this);
-
-                            View listViewClient = getLayoutInflater().inflate(R.layout.layout_contact,null);
-
-                            builder.setNegativeButton("O.K", new DialogInterface.OnClickListener(){
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                    Intent intent = new Intent(getApplicationContext(), ClientsList.class);
-                                    intent.putExtra("username", "test");
-                                    intent.putExtra("phone", st_phone);
-                                    startActivity(intent);
-                                }
-
-                            });
-                            builder.setView(listViewClient);
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.show();
-                            //---------
+            public void onClick(DialogInterface dialogInterface, int i) {
 
 
-                        }else {
-                            Toast.makeText(getApplicationContext(), "من فضلك,إدخل رقم الهاتف الخاص بك حتى يتم التواصل معك لاحقا", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+            }
 
-                });
-                builder.setView(listViewClient);
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                // https://www.youtube.com/watch?v=5ETJWUuH1Ag
+        });
+        builder.setView(listViewClient);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        // https://www.youtube.com/watch?v=5ETJWUuH1Ag
                 /*Intent intent = new Intent(getApplicationContext(), ClientsList.class);
                 intent.putExtra("username", "test");
 
                 startActivity(intent);*/
-            }
-        });
+        //---------------
+        height_start = tab_start.getHeight();
+        Toast.makeText(this, "" + height_start, Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -173,15 +159,16 @@ public class Login extends Activity {
         NetworkInfo info = manager.getActiveNetworkInfo();
 
         if (info != null && info.isConnected()) {
-            check=true;
-        }else check=false;
+            check = true;
+        } else check = false;
         return check;
     }
 
-    private void setData (){
+    private void setData() {
         ls_username = username.getText().toString();
-        ls_password=password.getText().toString();
+        ls_password = password.getText().toString();
     }
+
     @Override
     protected void onStart() {
 
@@ -189,8 +176,8 @@ public class Login extends Activity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 list_datausers.clear();
-                for(DataSnapshot dataclients : dataSnapshot.getChildren()){
-                    DataUsers userData  = dataclients.getValue(DataUsers.class);
+                for (DataSnapshot dataclients : dataSnapshot.getChildren()) {
+                    DataUsers userData = dataclients.getValue(DataUsers.class);
                     //    Toast.makeText(ClientsList.this, client.getUser_Name(), Toast.LENGTH_SHORT).show();
                     list_datausers.add(userData);
                 }
@@ -206,11 +193,11 @@ public class Login extends Activity {
         super.onStart();
     }
 
-    private Boolean checkUsers ( String user , String pass){
+    private Boolean checkUsers(String user, String pass) {
 
-        for (int i = 0 ; i < list_datausers.size() ; i++){
+        for (int i = 0; i < list_datausers.size(); i++) {
             DataUsers datausers = list_datausers.get(i);
-            if (user.equals(datausers.getUser_Name())){
+            if (user.equals(datausers.getUser_Name())) {
                 if (pass.equals(datausers.getPassword())) {
                     return true;
                 } else {
@@ -227,25 +214,61 @@ public class Login extends Activity {
     @Override
     public void onBackPressed() {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("هل انت متاكد انك تريد الخروج").setCancelable(false).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    Intent intent = new Intent(Intent.ACTION_MAIN);
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("هل انت متاكد انك تريد الخروج").setCancelable(false).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
 
 
-                }
-            }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
-            });
-            builder.create().show();
-        }
-
-
-
+            }
+        }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
     }
 
+
+    public void tabStart(View view) {
+
+        getHeight("S", tab_start.getHeight());
+
+        if (tab_start.getHeight() != 0) {
+            tab_start.setHeight(0);
+        } else {
+            tab_start.setHeight(height_start);
+            // width , height
+        }
+    }
+
+    private void getHeight(String s, int height) {
+        if (height != 0) {
+            switch (s) {
+                case "S":
+                    height_start = height;
+                    break;
+                case "P":
+                    height_Privacy = height;
+                    break;
+
+
+            }
+
+        }
+    }
+
+    public void tabPrivacy(View view) {
+        getHeight("P", tab_Privacy.getHeight());
+
+        if (tab_Privacy.getHeight() != 0) {
+            tab_Privacy.setHeight(0);
+        } else {
+            tab_Privacy.setHeight(height_Privacy);
+            // width , height
+        }
+    }
+}
