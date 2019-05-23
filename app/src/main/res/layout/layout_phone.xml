@@ -13,7 +13,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             >
             <LinearLayout
     android:layout_width="match_parent"
@@ -32,21 +33,20 @@
         android:textColor="@color/white"
         android:background="@color/tabs"
         android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
         android:onClick="tabStart"
         />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="@dimen/text"
         android:textColor="@color/colorPrimary"
         android:layout_marginTop="5dp"
-        android:text="@string/alart"
+        android:text="@string/start"
         android:id="@+id/tab_start"
-
         />
 </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -64,16 +64,15 @@
                     android:textColor="@color/white"
                     android:background="@color/tabs"
                     android:gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
                     android:onClick="tabPrivacy"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/text"
                     android:textColor="@color/colorPrimary"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="@string/alart"
                     android:id="@+id/tab_Privacy"
 
@@ -97,21 +96,85 @@
                     android:textColor="@color/white"
                     android:background="@color/tabs"
                     android:gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:onClick="tabStart"
+                    android:onClick="tabAdd_client"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/text"
                     android:textColor="@color/colorPrimary"
-                    android:layout_margin="10dp"
-                    android:text="@string/alart"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/client"
                     android:id="@+id/tab_add_client"
 
                     />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_below="@+id/three"
+                android:id="@+id/four"
+                >
+                <TextView
+                    android:id="@+id/search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/search"
+                    android:textSize="@dimen/tabs"
+                    android:textColor="@color/white"
+                    android:background="@color/tabs"
+                    android:gravity="center_horizontal"
+                    android:onClick="tabAdd_client"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/tab_search"
+                    android:id="@+id/tab_search"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_below="@+id/four"
+                android:id="@+id/five"
+                >
+                <TextView
+                    android:id="@+id/record_client"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/record_client"
+                    android:textSize="@dimen/tabs"
+                    android:textColor="@color/white"
+                    android:background="@color/tabs"
+                    android:gravity="center_horizontal"
+                    android:onClick="tabAdd_client"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/tab_record_client"
+                    android:id="@+id/tab_record_client"
+                    />
+            </LinearLayout>
+
+
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>

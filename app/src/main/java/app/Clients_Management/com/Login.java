@@ -44,7 +44,7 @@ public class Login extends Activity {
     DatabaseReference databaseReference;
     List<DataUsers> list_datausers;
     private String databasename;
-    private int height_start , height_Privacy;
+    private int height_start , height_Privacy ,height_add_client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,6 +233,23 @@ public class Login extends Activity {
     }
 
 
+    private void getHeight(String s, int height) {
+        if (height != 0) {
+            switch (s) {
+                case "S":
+                    height_start = height;
+                    break;
+                case "P":
+                    height_Privacy = height;
+                    break;
+                case "C":
+                    height_add_client = height;
+                    break;
+
+            }
+
+        }
+    }
     public void tabStart(View view) {
 
         getHeight("S", tab_start.getHeight());
@@ -244,23 +261,6 @@ public class Login extends Activity {
             // width , height
         }
     }
-
-    private void getHeight(String s, int height) {
-        if (height != 0) {
-            switch (s) {
-                case "S":
-                    height_start = height;
-                    break;
-                case "P":
-                    height_Privacy = height;
-                    break;
-
-
-            }
-
-        }
-    }
-
     public void tabPrivacy(View view) {
         getHeight("P", tab_Privacy.getHeight());
 
@@ -268,6 +268,17 @@ public class Login extends Activity {
             tab_Privacy.setHeight(0);
         } else {
             tab_Privacy.setHeight(height_Privacy);
+            // width , height
+        }
+    }
+
+    public void tabAdd_client(View view) {
+        getHeight("C", tab_add_client.getHeight());
+
+        if (tab_add_client.getHeight() != 0) {
+            tab_add_client.setHeight(0);
+        } else {
+            tab_add_client.setHeight(height_add_client);
             // width , height
         }
     }
